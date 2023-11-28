@@ -1,12 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Patient</title>
+  <head>
+    <style>
+      .appointmentForm {
+        max-width: 400px;
+      }
+
+      .appointmentForm label {
+        font-weight: bold;
+        margin-top: 10px;
+      }
+
+      .appointmentForm input {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 15px;
+        box-sizing: border-box;
+      }
+
+      .appointmentForm button {
+        background-color: #007bff;
+        color: #fff;
+        padding: 10px;
+        border: none;
+        cursor: pointer;
+      }
+
+      .warningMessage {
+        color: red;
+      }
+
+      .cancelButton {
+        background-color: #685cfe;
+        color: #fff;
+        padding: 10px;
+        border: none;
+        cursor: pointer;
+      }
+      /* Fin estilos del form de cita */
+
+      /* Inicio elemento colapse */
+      .collapseButton {
+        background-color: #685cfe;
+        width: 400px;
+        color: #fff;
+        padding: 10px;
+        border: none;
+        cursor: pointer;
+      }
+    </style>
+
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Patient</title>
     <link rel="stylesheet" href="style.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
     <script
       type="module"
       src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
@@ -15,153 +69,324 @@
       nomodule
       src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
     ></script>
-    <script src = 'persona_apoyo.js'></script>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="persona_apoyo.js"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
     <!--                                                      JQUERY                                               -->
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link
+      rel="stylesheet"
+      href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"
+    />
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script>
-        // Inicializa el Datepicker cuando el documento esté listo
-        $(document).ready(function() {
-          $("#datepicker").datepicker();
-          $("#datepicker2").datepicker();
-        });
-      </script>
-    
-</head>
-<body>
-
+      // Inicializa el Datepicker cuando el documento esté listo
+      $(document).ready(function () {
+        $("#datepicker").datepicker();
+        $("#datepicker2").datepicker();
+      });
+    </script>
+  </head>
+  <body>
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-lg-2">
-                    <!-- --------------------------------------------- SIDE BAR -------------------------------------------------------------- -->
-                <div class="sidebar" >
-                    <div class="sidebar-content">  
-                        <div class="dots">
-                        <h3> Kokua </h3>
-                        </div>
-                        <div class="profile">
-                        <ion-icon name="person-outline"></ion-icon>
-                        </div>
-                        <ul>
-                        <span>Main</span>
-                        <li>
-                            <a href="./index.html"
-                            ><ion-icon name="home-outline"></ion-icon>
-                            <p>Home</p></a
-                            >
-                        </li>
-                        </ul>
-                        <ul>
-                        <span>Content</span>
-                        <li class="noti">
-                            <a href="#notifications"
-                            ><ion-icon name="notifications-outline"></ion-icon>
-                            <p>Notifications</p></a
-                            >
-                        </li>
-                        <li>
-                            <a href="./citas.html"
-                            ><ion-icon name="calendar-number-outline"></ion-icon>
-                            <p>Appointments</p></a
-                            >
-                        </li>
-                        <li>
-                            <a href="./Medicinas.html"
-                            ><ion-icon name="medkit-outline"></ion-icon>
-                            <p>Medication</p></a
-                            >
-                        </li>
-                        <li>
-                            <a href="./ServiciosExtra.html"
-                            ><ion-icon name="grid-outline"></ion-icon>
-                            <p>Other Services</p></a
-                            >
-                        </li>
-                        <li class="likes">
-                            <a href="#chat"
-                            ><ion-icon name="chatbubble-outline"></ion-icon>
-                            <p>Chat</p></a
-                            >
-                        </li>
-                        </ul>
-                        <ul>
-                        <span>Logout</span>  
-                        <li>
-                            <a href="#"
-                            ><ion-icon name="log-out-outline"></ion-icon>
-                            <p>Logout</p></a
-                            >
-                        </li>
-                        </ul>
-                    </div>  
-                </div>
-                <!-- ------------------------------------------- END OF SIDE BAR ----------------------------------------------- -->
+      <div class="row">
+        <div class="col-lg-2">
+          <!-- --------------------------------------------- SIDE BAR -------------------------------------------------------------- -->
+          <div class="sidebar">
+            <div class="sidebar-content">
+              <div class="dots">
+                <h3>Kokua</h3>
+              </div>
+              <div class="profile">
+                <ion-icon name="person-outline"></ion-icon>
+              </div>
+              <ul>
+                <span>Main</span>
+                <li>
+                  <a href="./index.html"
+                    ><ion-icon name="home-outline"></ion-icon>
+                    <p>Home</p></a
+                  >
+                </li>
+              </ul>
+              <ul>
+                <span>Content</span>
+                <li class="noti">
+                  <a href="./notificaciones.html"
+                    ><ion-icon name="notifications-outline"></ion-icon>
+                    <p>Notifications</p></a
+                  >
+                </li>
+                <li>
+                  <a href="./citas.html"
+                    ><ion-icon name="calendar-number-outline"></ion-icon>
+                    <p>Appointments</p></a
+                  >
+                </li>
+                <li>
+                  <a href="./Medicinas.html"
+                    ><ion-icon name="medkit-outline"></ion-icon>
+                    <p>Medication</p></a
+                  >
+                </li>
+                <li>
+                  <a href="./ServiciosExtra.html"
+                    ><ion-icon name="grid-outline"></ion-icon>
+                    <p>Other Services</p></a
+                  >
+                </li>
+                <li class="likes">
+                  <a href="./chat.html"
+                    ><ion-icon name="chatbubble-outline"></ion-icon>
+                    <p>Chat</p></a
+                  >
+                </li>
+              </ul>
+              <ul>
+                <span>Logout</span>
+                <li>
+                  <a href="#"
+                    ><ion-icon name="log-out-outline"></ion-icon>
+                    <p>Logout</p></a
+                  >
+                </li>
+              </ul>
             </div>
-            <!-- --------------------------------------- VISTA DE CITA ---------------------------------------- -->
-            <div class="col-lg-10 general_cita">
-               <div class="row header_cita">
-                    <p> &emsp;&emsp;&emsp;
-                        Appointment ID&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-                        Patient Name&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-                        Doctor Name&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-                        Date</p>
-               </div>
-               <div class="row vista_cita">
-                    <ul>
-                        <li class="datos_cita" style="list-style: none;">&emsp;&emsp;&emsp;&emsp;&emsp;
-                            00124&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-                            Hayle Dunphy&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-                            Theodore Pritchett&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-                            10-02-23</li>
-                        <li class="datos_cita" style="list-style: none;">&emsp;&emsp;&emsp;&emsp;&emsp;
-                            00125&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-                            Hayle Dunphy&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-                            Theodore Pritchett&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-                            18-01-24</li>
-                        <li class="datos_cita" style="list-style: none;">&emsp;&emsp;&emsp;&emsp;&emsp;
-                            00126&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-                            Hayle Dunphy&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-                            Theodore Pritchett&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-                            03-05-24</li>
-                    </ul>                
-               </div>
-               <div class="row boton_cita">
-                    <div class="col">
-                        <p class="activ-citas"><b>MODIFY</b></p>
-                        <form class="forms-cita" action="#">
-                            <label>Enter the ID of the appointment you wish to modify: </label><br>
-                            <input type="number" id="id_cita"><br>
-                            <label>Select the date:</label><br>
-                            <input type="text" id="datepicker"><br>
-                            <input type="submit" value="Submit" class="buton">
-                        </form>                   
-                    </div>
-                    <div class="col">
-                        <p class="activ-citas"><b>CANCEL</b></p>
-                        <form class="forms-cita" action="#">
-                            <label>Enter the ID of the appointment you wish to cancel: </label><br>
-                            <input type="number" id="id_cita"><br>
-                            <input type="submit" value="Submit" class="buton">
-                        </form>   
-                    </div>
-                    <div class="col">
-                        <p class="activ-citas"><b>SCHEDULE</b></p>
-                        <form class="forms-cita" action="#">
-                            <label>Select the date of your next appointment:</label><br>
-                            <input type="text" id="datepicker2"><br>
-                            <input type="submit" value="Submit" class="buton">
-                        </form>   
-                    </div>
-               </div>
-            </div>
+          </div>
+          <!-- ------------------------------------------- END OF SIDE BAR ----------------------------------------------- -->
         </div>
-    </div><!-- CIERRE DE CONTAINER -->
-    
-   
-      
-</body>
+        <!-- --------------------------------------- VISTA DE CITA ---------------------------------------- -->
+        <div class="col-lg-10 general_cita">
+          <h3>
+            <ion-icon name="calendar-outline"></ion-icon>
+            Mis citas
+          </h3>
+          <br />
+
+          <button
+            class="collapseButton"
+            data-toggle="collapse"
+            data-target="#appointmentFormCointainer"
+          >
+            Nueva cita
+          </button>
+          <div id="appointmentFormCointainer" class="collapse">
+            <form id="appointmentForm" class="appointmentForm">
+              <br />
+              <label>Fecha: &emsp;</label>
+              <input id="Citas-Fecha" type="date" />
+              <br />
+              <label>Tipo: &emsp;</label>
+              <select id="Citas-Tipo">
+                <option value="Estandar">Estandar</option>
+                <option value="DePrueba">DePrueba</option>
+              </select>
+
+              <br />
+              <div class="d-flex justify-content-between">
+                <p id="Citas-Mensaje" class="warningMessage"></p>
+                <button type="button" onclick="newAppointment()">
+                  Crear cita
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <div
+            id="Appointments"
+            class="col-sm-12 text-left"
+            style="height: 100%; overflow-y: scroll"
+          >
+            <br />
+
+            <!--Carga y muestra las citas-->
+            <script>
+              const doctorID = ""; //Falta como obtenerlo al momento de hacer el log-in
+              const campos =
+                "c.IDCita, c.TipoCita, c.EstatusCita, c.Fecha, p.Nombre, p.Apellido";
+              const query = `SELECT ${campos} FROM citas c, pacientes p  WHERE c.IDPaciente=p.IDPaciente AND c.IDDoctor=${doctorID};`;
+
+              //Señalan a donde debe añadir las nuevas citas
+              const container = document.getElementById("Appointments");
+              const appointmentCointainerClass = "card";
+              const cardWidth = 800;
+
+              const appointmentURL = "/api/paciente/appointments/:id";
+              const idPaciente = 1; // El ID que quieres usar
+              const updateAppointmentURL = appointmentURL.replace(
+                ":id",
+                idPaciente
+              );
+
+              function loadJSON(url) {
+                return fetch(url)
+                  .then((response) => {
+                    if (!response.ok) {
+                      throw new Error(`Error de red: ${response.status}`);
+                    }
+                    return response.json();
+                  })
+                  .catch((error) => {
+                    console.error(`Error al cargar JSON desde ${url}:`, error);
+                    throw error; // Relanzar el error para manejo posterior si es necesario
+                  });
+              }
+
+              async function agregarCita(datosCita) {
+                try {
+                  const response = await fetch("/api/paciente/appointments", {
+                    method: "POST",
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(datosCita),
+                  });
+
+                  if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                  }
+
+                  const data = await response.json();
+                  console.log("Cita agregada con éxito, ID:", data.insertedId);
+                  return data.insertedId; // Devolver el ID de la cita insertada
+                } catch (error) {
+                  console.error("Error al agregar la cita:", error);
+                }
+              }
+
+              const newAppointment = async () => {
+                //Para insertar mensajes de error
+                const formularioCita =
+                  document.getElementById("appointmentForm");
+
+                //Controladores de los inputs
+                const date = document.getElementById("Citas-Fecha");
+                const type = document.getElementById("Citas-Tipo");
+
+                //Controlador del mensaje de error
+                const errorMessage = document.getElementById("Citas-Mensaje");
+
+                //Si los campos estan llenos
+                if (date.value && type.value) {
+                  const response = await loadJSON(updateAppointmentURL);
+                  const appointments = response.data;
+                  console.log(appointments[0].IDDoctor);
+                  const jsonAppointment = {
+                    IDPaciente: idPaciente,
+                    IDDoctor: appointments[0].IDDoctor,
+                    TipoCita: type.value,
+                    EstatusCita: "Agendada",
+                    Fecha: date.value,
+                  };
+                  agregarCita(jsonAppointment).then((insertedId) => {
+                    if (insertedId) {
+                      const newAppointment = document.createElement("div");
+                      newAppointment.className = appointmentCointainerClass;
+                      newAppointment.style = `width: ${cardWidth}px`;
+                      newAppointment.id = "Cita-" + insertedId;
+                      newAppointment.innerHTML = `
+                                <div class="d-flex justify-content-around" style="width:${cardWidth}px">
+                                    <p style="width:${
+                                      cardWidth / 5
+                                    }px">Jose Jimenez</p> 
+                                    <p style="width:${cardWidth / 5}px">${
+                        date.value
+                      }</p>
+                                    <p style="width:${cardWidth / 5}px">${
+                        type.value
+                      }</p>
+                                    <p style="width:${
+                                      cardWidth / 5
+                                    }px">Por confirmar</p>
+                                    <button onclick="deleteAppointment(${insertedId})" class="cancelButton">Cancelar cita</button>
+                                </div>
+                            `;
+                      container.appendChild(newAppointment);
+
+                      date.value = "";
+                      type.value = "";
+                    }
+                  });
+                } else {
+                  errorMessage.innerHTML = "Rellene todos los campos";
+                }
+              };
+              async function eliminarCita(idCita) {
+                try {
+                  const response = await fetch(
+                    "/api/paciente/appointments/" + idCita,
+                    {
+                      method: "DELETE",
+                    }
+                  );
+
+                  if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                  }
+
+                  const data = await response.json();
+                  console.log(data.message);
+                  // Aquí puedes manejar la respuesta, como actualizar la interfaz de usuario
+                } catch (error) {
+                  console.error("Error al eliminar la cita:", error);
+                }
+              }
+
+              const deleteAppointment = async (appointmentID) => {
+                await eliminarCita(appointmentID);
+                const child = document.getElementById("Cita-" + appointmentID);
+                container.removeChild(child);
+              };
+
+              const loadAppointments = async () => {
+                const response = await loadJSON(updateAppointmentURL);
+                const appointments = response.data;
+                appointments.map((appointment) => {
+                  const patientDiv = document.createElement("div");
+                  patientDiv.className = appointmentCointainerClass;
+                  patientDiv.style = `width: ${cardWidth}px`;
+                  patientDiv.id = "Cita-" + appointment.IDCita;
+                  patientDiv.innerHTML = `
+                    <div class="d-flex justify-content-around" style="width:${cardWidth}px">
+                    <p style="width:${cardWidth / 5}px">${
+                    appointment.Nombre + " " + appointment.Apellido
+                  }</p> 
+                    <p style="width:${cardWidth / 5}px">${appointment.Fecha}</p>
+                    <p style="width:${cardWidth / 5}px">${
+                    appointment.TipoCita
+                  }</p>
+                    <p style="width:${cardWidth / 5}px">${
+                    appointment.EstatusCita
+                  }</p>
+                    <button onclick="deleteAppointment(${
+                      appointment.IDCita
+                    })" class="cancelButton">Cancelar cita</button></div>
+                    `;
+                  container.appendChild(patientDiv);
+                });
+              };
+
+              loadAppointments();
+            </script>
+          </div>
+          <br />
+          <br />
+        </div>
+      </div>
+    </div>
+    <!-- CIERRE DE CONTAINER -->
+  </body>
 </html>

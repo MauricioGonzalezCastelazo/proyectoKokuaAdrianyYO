@@ -296,80 +296,6 @@ const loadClients = async () =>{
      
 }
 
-//--------------------------notifications---------------------------------------------------------
-const loadNotifications = async (notifications) =>{
-  try{
-    const notificationArea = document.getElementById('notifications');
-
-      await notifications.forEach(el => {
-        const line = document.createElement('hr');
-        line.className = 'lineaNot';
-        const divTituloMensaje = document.createElement('div');
-        divTituloMensaje.className = 'notificacionTituloDescripcion';
-        const divHora = document.createElement('div');
-        divHora.className = 'divHoraNotificacion';
-        const divNotification = document.createElement('div');
-        divNotification.className = 'divNotificacion';
-        divNotification.setAttribute('data-id', el.id); // Asignar el ID de la notificación
-        const point = document.createElement('div');
-        point.className = 'ponitNotificacion';
-    
-        const notification = document.createElement('p');
-        notification.innerText = el.notification;
-        notification.className = 'titleNotification';
-        const time = document.createElement('p');
-        time.innerText = el.time;
-        time.className = 'timeNotification';
-        const description = document.createElement('p');
-        description.innerText = el.description;
-        description.className = 'descriptionNotification';
-    
-        const botonBorrar = document.createElement('button');
-        botonBorrar.innerHTML = '<ion-icon name="trash-outline"></ion-icon>';
-        botonBorrar.className = 'borrar';
-    
-        divTituloMensaje.appendChild(point);
-        divTituloMensaje.appendChild(notification);
-        divTituloMensaje.appendChild(description);
-        divHora.appendChild(time);
-        divNotification.appendChild(divTituloMensaje);
-        divNotification.appendChild(divHora);
-        divNotification.appendChild(botonBorrar);  // Agrega el botón Borrar a la notificación
-        notificationArea.appendChild(line);
-        notificationArea.appendChild(divNotification);
-        notificationArea.appendChild(line);
-    
-      
-        botonBorrar.addEventListener('click', function(event) {
-          const notificationId = divNotification.getAttribute('data-id');
-          console.log(notificationId);
-          divNotification.classList.add('desvanecer');
-          divNotification.addEventListener('animationend', function() {
-            divNotification.remove();
-        
-            // Realizar la petición HTTP DELETE (comentada por ahora)
-            /*
-            fetch('https://tuapi.com/notifications/' + notificationId, {
-              method: 'DELETE'
-            })
-            .then(response => response.json())
-            .then(data => {
-              console.log('Notificación eliminada:', data);
-            })
-            .catch((error) => {
-              console.error('Error:', error);
-            });
-            */
-          });
-        });
-    });
-    
-  }catch(error)
-  {
-    console.log(error);
-  }
-
-}
 
 
 
@@ -381,7 +307,6 @@ document.addEventListener('DOMContentLoaded', function() {
   loadMessages(mensajes);
   searchBar();
   loadClients();
-  loadNotifications(notifications);
 
  /*
   Promise.all([
