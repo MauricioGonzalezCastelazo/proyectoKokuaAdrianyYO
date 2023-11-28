@@ -219,6 +219,20 @@ app.delete('/api/doctor/appointments/:id', (req, res) => {
   });
 });
 
+//-----------------------------------------------Informacion doctor-----------
+
+app.get('/api/doctor/profile/:id', (req, res) =>{
+  const idDoctor = req.params.id;
+  console.log(idDoctor);
+  const query = 'SELECT * from doctores where IDDoctor = ?';
+  pool.query(query, [idDoctor], (error, results, fields) => {
+    if (error) {
+      return res.status(500).json({ error: 'Database query error' });
+    }
+    res.json({ data: results });
+  });
+});
+
 //------------------------------------------------Pacientes---------------------------
 
 app.get('/api/doctor/patients/:id', (req, res) =>{
