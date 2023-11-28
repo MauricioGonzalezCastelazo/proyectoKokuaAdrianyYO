@@ -46,6 +46,7 @@ app.get('/api/data', (req, res) => {
     res.json({ data: results });
   });
 });
+
 //------------------------------Persona de apoyo------------------------------------------------------------------
 app.get('/api/persona-apoyo/contactos:id', (req, res) =>{
   const idPersonaApoyo = req.params.id;
@@ -173,7 +174,7 @@ app.get('/api/paciente/Seguimiento:id', (req, res) =>{
     res.json({ data: results });
   });
 });
-
+ //-----------------------------------------------Fin back------------------------------
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public/login.html'));
