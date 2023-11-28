@@ -14,11 +14,11 @@ app.use(bodyParser.json());
 
 // Set up the MySQL connection
 const pool = mysql.createPool({
-  host: process.env.SERVER_HOST,
-  user: process.env.SERVER_USER, // Your MySQL username
-  password: process.env.SERVER_PASSWORD, // Your MySQL password
+  host: 'kokua-srv.mysql.database.azure.com',
+  user: 'kokuamaster', // Your MySQL username
+  password: 'ingSoftwareUP2023', // Your MySQL password
   database: 'kokua', // Your MySQL database name
-  port: process.env.SERVER_PORT,
+  port: '3306',
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0
@@ -39,7 +39,29 @@ pool.getConnection((err, connection) => {
 
 // Define a test API to fetch data from MySQL
 app.get('/api/data', (req, res) => {
-  pool.query('SELECT * FROM `your_table_name`', (error, results, fields) => {
+  pool.query('SELECT * FROM personasapoyo', (error, results, fields) => {
+    if (error) {
+      return res.status(500).json({ error: 'Database query error' });
+    }
+    res.json({ data: results });
+  });
+});
+
+app.get('/api/persona-apoyo/contactos:id', (req, res) =>{
+  const idPersonaApoyo = req.params.id;
+  const query = 'SELECT Distinct pacientes.IDPaciente, pacientes.Nombre, pacientes.Apellido, pacientes.Padecimento, pacientes.EstatusPaciente FROM pacientes, asignaciones, personasapoyo WHERE pacientes.IDPaciente = asignaciones.IDPaciente AND asignaciones.IDPersonaApoyo = ?';
+  pool.query(query, [idPersonaApoyo], (error, results, fields) => {
+    if (error) {
+      return res.status(500).json({ error: 'Database query error' });
+    }
+    res.json({ data: results });
+  });
+});
+
+app.get('/api/persona-apoyo/user:id', (req, res) =>{
+  const idPersonaApoyo = req.params.id;
+  const query = 'SELECT Nombre from personasapoyo where IDPersonaApoyo = ?';
+  pool.query(query, [idPersonaApoyo], (error, results, fields) => {
     if (error) {
       return res.status(500).json({ error: 'Database query error' });
     }
@@ -66,7 +88,7 @@ app.get('*', (req, res) => {
 
 
 // Start the server
-const PORT = process.env.PORT;
+const PORT = 1234;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
