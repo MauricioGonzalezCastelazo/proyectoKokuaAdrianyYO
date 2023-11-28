@@ -636,7 +636,12 @@ body {
 }
 
 /* SECCION FORMULARIO CLINICAL RECORD*/
+.crecord-form {
+  
+}
+
 .crecord-form form {
+
   width: 70%;
   margin: 0 auto;
 }

@@ -22,6 +22,10 @@
 
         <!--Cripto -->
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
+
+        <!-- Axios (Para peticiones HTTP) -->
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
     
     </head>
 
@@ -51,7 +55,7 @@
         <div class="sidebar">
 
             <div class="dots">
-                <h3> Kokua | Modo Doctor </h3>
+                <h3> Kokua  </h3>
             </div>
 
             <div class="profile">
@@ -61,7 +65,7 @@
             <ul>
                 <span>Principal</span>
                 <li>
-                    <a href="#homeContent">
+                    <a href="./index.html#homeContent">
                         <ion-icon name="home-outline"></ion-icon>
                         <p>Inicio</p>
                     </a>
@@ -164,7 +168,10 @@
                                     <input id="Citas-Fecha" type="date">
                                     <br>
                                     <label>Tipo: &emsp;</label>
-                                    <input id="Citas-Tipo" type="text" placeholder="Tipo de la cita">
+                                    <select id="Citas-Tipo">
+                                        <option value="Estandar">Estandar</option>
+                                        <option value="DePrueba">DePrueba</option>
+                                      </select>
                                     <br>
                                     <div class="d-flex justify-content-between">
                                         <p id="Citas-Mensaje" class="warningMessage"></p>
@@ -176,123 +183,182 @@
                             <div id="Appointments" class="col-sm-12 text-left" style="max-height: 250px; overflow-y: scroll;">
                                 <br>
 
-                                <!--Carga y muestra las citas-->
-                                <script>
+                                <!-- Indicador de valores de cada columna -->
+                                <div class="d-flex justify-content-between" style="width: 800px;">
+                                    <p style="width: 160px;"><b>Paciente</b></p>
+                                    <p style="width: 160px;"><b>&emsp;Fecha</b></p>
+                                    <p style="width: 160px;"><b>&emsp;Tipo</b></p>
+                                    <p style="width: 160px;"><b>&emsp;Estatus</b></p>
+                                    <p style="width: 160px;"></p>
+                                </div>
 
-                                    const doctorID = ""     //Falta como obtenerlo al momento de hacer el log-in
-                                    const campos = "c.IDCita, c.TipoCita, c.EstatusCita, c.Fecha, p.Nombre, p.Apellido"
-                                    const query= `SELECT ${campos} FROM citas c, pacientes p  WHERE 
-                                    c.IDPaciente=p.IDPaciente AND c.IDDoctor=${doctorID};`
-
-                                    //Señalan a donde debe añadir las nuevas citas
-                                    const container = document.getElementById("Appointments")
-                                    const appointmentCointainerClass = "card"
-                                    const cardWidth = 800
-
-                                    const myAppointments = [
-                                        ["1", "Revision", "Por confirmar", "2023-01-01", "Roberto", "Jimenez"],
-                                        ["2", "Cirujia", "Confirmada", "2023-01-05", "Ana", "Gutierrez"],
-                                        ["3", "Tratamiento", "Postergada", "2023-01-10", "Jose", "Gonzalez"]
-                                    ]   //Falta fetch de las citas
-
-                                    const newAppointment = () =>{
-                                        
-                                        //Para insertar mensajes de error 
-                                        const formularioCita = document.getElementById("appointmentForm")
-                                        
-                                        //Controladores de los inputs
-                                        const patientID = document.getElementById("Citas-ID_Paciente")
-                                        const date = document.getElementById("Citas-Fecha")
-                                        const type = document.getElementById("Citas-Tipo")
-
-                                        //Controlador del mensaje de error
-                                        const errorMessage = document.getElementById("Citas-Mensaje")
-
-                                        //Si los campos estan llenos
-                                        if(patientID.value && date.value && type.value){
-
-                                            //Falta verificar la info de la BD para saber si existe el paciente 
-                                            const checkIDquery = `SELECT nombre, apellido FROM pacientes WHERE IDPaciente=${patientID.value};`
-                                            const exists = 1 
-
-                                            //Si existe el paciente
-                                            if(exists){
-
-                                                errorMessage.innerHTML = ""
-
-                                                const ID = cyrb53(patientID.value + doctorID.value + type.value);
-
-                                                //Falta insertarlo en la BD
-                                                const query = `INSERT INTO citas VALUES(${ID}, ${patientID.value}, ${doctorID}, ${type.value}, "Por confirmar", ${date.value});`
-                                    
-                                                
-                                                const newAppointment = document.createElement("div");
-                                                newAppointment.className = appointmentCointainerClass
-                                                newAppointment.style = `width: ${cardWidth}px`
-                                                newAppointment.id = "Cita-" + ID
-                                                newAppointment.innerHTML = `
-                                                    <div class="d-flex justify-content-around" style="width:${cardWidth}px">
-                                                        <p style="width:${cardWidth/5}px">Jose Jimenez</p> 
-                                                        <p style="width:${cardWidth/5}px">${date.value}</p>
-                                                        <p style="width:${cardWidth/5}px">${type.value}</p>
-                                                        <p style="width:${cardWidth/5}px">Por confirmar</p>
-                                                        <button onclick="deleteAppointment(${ID})" class="cancelButton">Cancelar cita</button>
-                                                    </div>
-                                                `;
-
-                                                container.appendChild(newAppointment)
-
-                                                //Borra los valores de la 
-                                                patientID.value = ""
-                                                date.value = ""
-                                                type.value = ""
+                                    <!--Carga y muestra las citas-->
+                                    <script>
+                        
+                                        //Señalan a donde debe añadir las nuevas citas
+                                        const container = document.getElementById("Appointments");
+                                        const appointmentCointainerClass = "card";
+                                        const cardWidth = 800;
+                        
+                                        const appointmentURL = "/api/doctor/appointments/:id";
+                                        const idDoctor = 1; // El ID que quieres usar
+                                        const updateAppointmentURL = appointmentURL.replace(
+                                        ":id",
+                                        idDoctor
+                                        );
+                        
+                                        function loadJSON(url) {
+                                        return fetch(url)
+                                            .then((response) => {
+                                            if (!response.ok) {
+                                                throw new Error(`Error de red: ${response.status}`);
                                             }
-                                            else {
-                                                errorMessage.innerHTML = "No existe un paciente con el ID: " + patientID.value
-                                            }
-
-                                        } 
-                                        else {
-                                            errorMessage.innerHTML = "Rellene todos los campos"
+                                            return response.json();
+                                            })
+                                            .catch((error) => {
+                                            console.error(`Error al cargar JSON desde ${url}:`, error);
+                                            throw error; // Relanzar el error para manejo posterior si es necesario
+                                            });
                                         }
-                                    }
-
-                                    const deleteAppointment = (appointmentID) => {
-                                        const query = `DELETE FROM citas WHERE IDCita=${appointmentID};`    //Falta ejecutar el query
-
-                                        /*
-                                        fetch()
-                                            .then()
-                                            .then()
-                                        */
-
-                                        const child = document.getElementById("Cita-" + appointmentID)
-                                        container.removeChild(child)
-                                    }
-
-                                    const loadAppointments = (appointments) => {
-                                        appointments.map(( appointment )=>{
-
-                                            const patientDiv = document.createElement("div");
-                                            patientDiv.className = appointmentCointainerClass
-                                            patientDiv.style = `width: ${cardWidth}px`
-                                            patientDiv.id = "Cita-" + appointment[0]
-                                            patientDiv.innerHTML = `
-                                                <div class="d-flex justify-content-around" style="width:${cardWidth}px">
-                                                    <p style="width:${cardWidth/5}px">${appointment[4] + " " + appointment[5]}</p> 
-                                                    <p style="width:${cardWidth/5}px">${appointment[3]}</p>
-                                                    <p style="width:${cardWidth/5}px">${appointment[1]}</p>
-                                                    <p style="width:${cardWidth/5}px">${appointment[2]}</p>
-                                                    <button onclick="deleteAppointment(${appointment[0]})" class="cancelButton">Cancelar cita</button>
-                                                </div>
+                        
+                                        async function agregarCita(datosCita) {
+                                        try {
+                                            const response = await fetch("/api/doctor/appointments", {
+                                            method: "POST",
+                                            headers: {
+                                                "Content-Type": "application/json",
+                                            },
+                                            body: JSON.stringify(datosCita),
+                                            });
+                        
+                                            if (!response.ok) {
+                                            throw new Error(`HTTP error! status: ${response.status}`);
+                                            }
+                        
+                                            const data = await response.json();
+                                            console.log("Cita agregada con éxito, ID:", data.insertedId);
+                                            return data.insertedId; // Devolver el ID de la cita insertada
+                                        } catch (error) {
+                                            console.error("Error al agregar la cita:", error);
+                                        }
+                                        }
+                        
+                                        const newAppointment = async () => {
+                                        //Para insertar mensajes de error
+                                        const formularioCita =
+                                            document.getElementById("appointmentForm");
+                        
+                                        //Controladores de los inputs
+                                        const date = document.getElementById("Citas-Fecha");
+                                        const type = document.getElementById("Citas-Tipo");
+                                        const patientID = document.getElementById("Citas-ID_Paciente")
+                        
+                                        //Controlador del mensaje de error
+                                        const errorMessage = document.getElementById("Citas-Mensaje");
+                        
+                                        //Si los campos estan llenos
+                                        if (date.value && type.value && patientID.value) {
+                                            const response = await loadJSON(updateAppointmentURL);
+                                            const appointments = response.data;
+                                            //console.log(appointments[0].IDDoctor);
+                                            const jsonAppointment = {
+                                            IDPaciente: patientID.value,
+                                            IDDoctor: idDoctor,
+                                            TipoCita: type.value,
+                                            EstatusCita: "Agendada",
+                                            Fecha: date.value,
+                                            };
+                                            agregarCita(jsonAppointment).then((insertedId) => {
+                                            if (insertedId) {
+                                                const newAppointment = document.createElement("div");
+                                                newAppointment.className = appointmentCointainerClass;
+                                                newAppointment.style = `width: ${cardWidth}px`;
+                                                newAppointment.id = "Cita-" + insertedId;
+                                                newAppointment.innerHTML = `
+                                                        <div class="d-flex justify-content-around" style="width:${cardWidth}px">
+                                                            <p style="width:${
+                                                                cardWidth / 5
+                                                            }px">Jose Jimenez</p> 
+                                                            <p style="width:${cardWidth / 5}px">${
+                                                date.value
+                                                }</p>
+                                                            <p style="width:${cardWidth / 5}px">${
+                                                type.value
+                                                }</p>
+                                                            <p style="width:${
+                                                                cardWidth / 5
+                                                            }px">Por confirmar</p>
+                                                            <button onclick="deleteAppointment(${insertedId})" class="cancelButton">Cancelar cita</button>
+                                                        </div>
                                                     `;
+                                                container.appendChild(newAppointment);
+                        
+                                                date.value = "";
+                                                type.value = "";
+                                                patientID.value = "";
+                                            }
+                                            });
+                                        } else {
+                                            errorMessage.innerHTML = "Rellene todos los campos";
+                                        }
+                                        };
+                                        async function eliminarCita(idCita) {
+                                        try {
+                                            const response = await fetch(
+                                            "/api/paciente/appointments/" + idCita,
+                                            {
+                                                method: "DELETE",
+                                            }
+                                            );
+                        
+                                            if (!response.ok) {
+                                            throw new Error(`HTTP error! status: ${response.status}`);
+                                            }
+                        
+                                            const data = await response.json();
+                                            console.log(data.message);
+                                            // Aquí puedes manejar la respuesta, como actualizar la interfaz de usuario
+                                        } catch (error) {
+                                            console.error("Error al eliminar la cita:", error);
+                                        }
+                                        }
+                        
+                                        const deleteAppointment = async (appointmentID) => {
+                                        await eliminarCita(appointmentID);
+                                        const child = document.getElementById("Cita-" + appointmentID);
+                                        container.removeChild(child);
+                                        };
+                        
+                                        const loadAppointments = async () => {
+                                        const response = await loadJSON(updateAppointmentURL);
+                                        const appointments = response.data;
+                                        appointments.map((appointment) => {
+                                            const patientDiv = document.createElement("div");
+                                            patientDiv.className = appointmentCointainerClass;
+                                            patientDiv.style = `width: ${cardWidth}px`;
+                                            patientDiv.id = "Cita-" + appointment.IDCita;
+                                            patientDiv.innerHTML = `
+                                            <div class="d-flex justify-content-around" style="width:${cardWidth}px">
+                                            <p style="width:${cardWidth / 5}px">${
+                                            appointment.Nombre + " " + appointment.Apellido
+                                            }</p> 
+                                            <p style="width:${cardWidth / 5}px">${appointment.Fecha}</p>
+                                            <p style="width:${cardWidth / 5}px">${
+                                            appointment.TipoCita
+                                            }</p>
+                                            <p style="width:${cardWidth / 5}px">${
+                                            appointment.EstatusCita
+                                            }</p>
+                                            <button onclick="deleteAppointment(${
+                                                appointment.IDCita
+                                            })" class="cancelButton">Cancelar cita</button></div>
+                                            `;
                                             container.appendChild(patientDiv);
-                                        })
-                                    }
-
-                                    loadAppointments(myAppointments)
-
-                                </script>
+                                        });
+                                        };
+                        
+                                        loadAppointments();
+                                    </script>
 
                             </div>
                             <br>
@@ -305,7 +371,171 @@
                             <br>
 
                             <div id="Events" class="col-sm-12 text-left">
-                                <p>Hola</p>
+
+                                <div id="AvailableEvents">
+                                    <h5>&emsp;Eventos disponibles</h5>
+                                    <div id="AvailableEventsContainer" style="width: 920px;height: 330px; overflow:auto;">
+                                    </div>
+                                </div>
+                                <br>
+
+                                <div id="MyEvents">
+                                    <h5>&emsp;Eventos programados</h5>
+                                    <div id="MyEventsContainer" style="width: 920px;height: 330px; overflow:auto;">
+                                    </div>
+                                </div>
+                                
+                                <script>
+
+                                    /* Contenedores de los eventos */
+                                    const availableEventsContainer = document.getElementById("AvailableEventsContainer")
+                                    const myEventsContainer = document.getElementById("MyEventsContainer")
+
+                                    const eventClassName = "card"
+
+                                    let availableEvents = [
+                                    /*   ID         Nombre              Lugar       Fecha            Descripcion                        Estatus*/
+                                        ["1", "Reunion de doctores", "Auditorio", "2024-01-01",  "Todos los doctores de Kokua se veran", "Pospuesto"],
+                                        ["3", "Conoce a Julion Alvarez", "Auditorio", "2024-01-03",  "Concierto de Julion", "A tiempo"],
+                                        ["4", "Conoce nuestros procesos", "RR.HH", "2024-01-04",  "Conoceras el proceso administrativo que tenemos", "A tiempo"],
+                                        ["6", "Visita escolar: UP", "Auditorio", "2024-01-06",  "Vendran alumnos de la UP a conocernos", "A tiempo"]
+                                    ]
+
+                                    let myEvents = [
+                                        ["2", "Convivencia con pacientes", "Patio", "2024-01-02",  "Todos los doctores conviviran con sus pacientes", "A tiempo"],
+                                        ["5", "Dia tecnologico: Da Vinci", "Auditorio", "2024-01-05",  "Conoce al celebre robot Da Vinci", "Cancelado"],
+                                        ["7", "Convivencia con RR.HH", "RR.HH", "2024-01-07",  "Convivencia con otras areas de Kokua: RR.HH", "A tiempo"],
+                                        ["8", "Comida para los doctores", "Comedor principal", "2024-01-08",  "Comida para celebrar tu esfuerzo", "Pospuesto"]
+                                    ]
+
+                                    const generateAvailableCard = (event) =>{
+                                        const eventCard = document.createElement("div")
+                                        eventCard.id = "Evento-" + event[0]
+                                        eventCard.className = eventClassName
+                                        eventCard.style = "height: 330px;width: 300px;display: inline-block;"
+                                        eventCard.innerHTML = `
+                                            <div class="scrollY1">
+                                                <h4>${event[1]}</h4>
+                                            </div>
+                                            <br>
+                                            <p><b>Lugar: </b>${event[2]}</p>
+                                            <p><b>Fecha: </b>${event[3]}</p>
+                                            <div class="scrollY2">
+                                                <p><b>Descripcion:</b> ${event[4]}</p>
+                                            </div>
+                                            <p><b>Estatus: </b>${event[5]}</p>
+                                            <button class="purpleButton" onClick="changeEventHandler(${event[0]})">Reservar</button>
+                                        `
+                                        return eventCard
+                                    }
+                                    const generateMyCard = (event) =>{
+                                        const eventCard = document.createElement("div")
+                                        eventCard.id = "Evento-" + event[0]
+                                        eventCard.className = eventClassName
+                                        eventCard.style = "height: 330px;width: 300px;display: inline-block;"
+                                        eventCard.innerHTML = `
+                                            <div class="scrollY1">
+                                                <h4>${event[1]}</h4>
+                                            </div>
+                                            <br>
+                                            <p><b>Lugar: </b>${event[2]}</p>
+                                            <p><b>Fecha: </b>${event[3]}</p>
+                                            <div class="scrollY2">
+                                                <p><b>Descripcion:</b> ${event[4]}</p>
+                                            </div>
+                                            <p><b>Estatus: </b>${event[5]}</p>
+                                            <button class="purpleButton" onClick="cancelEventHandler(${event[0]})">Cancelar</button>
+                                        `
+                                        return eventCard
+                                    }
+
+
+                                    //Getters a la BD
+                                    const getAvailableEvents = async() => {
+                                        try{
+                                            const endpoint = "/"
+                                            const response = await axios.get()
+                                        } catch (error) {
+                                            console.log("Error getting available events from server")
+                                        }
+                                    }
+                                    const getMyEvents = async() => {
+                                        try{
+                                            const endpoint = "/"
+                                            const response = await axios.get()
+                                        } catch (error) {
+                                            console.log("Error getting my events from server")
+                                        }
+                                    }
+
+                                    //Cargan los eventos en la pagina
+                                    const loadAvailableEvents = () => {
+                                        availableEvents.map((availableEvent)=> {
+                                            const eventCard = generateAvailableCard(availableEvent)
+                                            availableEventsContainer.appendChild(eventCard)
+                                        })
+                                    }
+                                    const loadMyEvents = () => {
+                                        myEvents.map((myEvent)=> {
+                                            const eventCard = generateMyCard(myEvent)
+                                            myEventsContainer.appendChild( eventCard )
+                                        })
+                                    }
+
+                                    //Permite cambiar un evento de disponible a mio
+                                    const changeEventHandler = async(id) => {
+                                        for(let i=0; i < availableEvents.length; i++){
+                                            if(availableEvents[i][0] == id){
+                                                const eventCard = document.getElementById("Evento-" + id)
+                                                availableEventsContainer.removeChild(eventCard)
+                                                const newCard = generateMyCard(availableEvents[i])
+                                                myEventsContainer.appendChild(newCard)
+                                                myEvents.push(availableEvents[i])
+
+                                                let aux = []
+                                                for(let j = 0; j < availableEvents.length; j++){
+                                                    if(j!=i){ aux.push(availableEvents[j]) }
+                                                }
+                                                availableEvents = aux
+                                                break;
+                                            }
+                                        }
+                                    }
+
+                                    //Permite cancelar la asistencia
+                                    const cancelEventHandler = async(id) => {
+                                        for(let i=0; i < myEvents.length; i++){
+                                            if(myEvents[i][0] == id){
+                                                const eventCard = document.getElementById("Evento-" + id)
+                                                myEventsContainer.removeChild(eventCard)
+                                                const newCard = generateAvailableCard(myEvents[i])
+                                                availableEventsContainer.appendChild(newCard)
+                                                availableEvents.push(myEvents[i])
+
+                                                let aux = []
+                                                for(let j = 0; j < myEvents.length; j++){
+                                                    if(j!=i){ aux.push(myEvents[j]) }
+                                                }
+                                                myEvents = aux
+
+                                                break;
+                                            }
+                                        }
+                                    }
+
+                                    const eventInitFunc = async() => {
+                                        //await getAvailableEvents()
+                                        //await getMyEvents()
+
+                                        loadAvailableEvents()
+                                        loadMyEvents()
+
+                                    }
+
+                                    eventInitFunc()
+
+                                </script>
+
                             </div>
                             <br>
 
@@ -391,86 +621,76 @@
                 <div class="col-sm-12 text-left">
                     <h1>Progreso medico</h1>
                     <div class="patientList">
-                        <div class="contenedor-items">
-                            <div class="item">
-                                <span class="titulo-item">Box Engasse</span>
-                                <img src= "img/profileICON.jpg" alt="" class="img-item">
-                                <a href="#infoPatient" class="enlace">View Info</a>
-                                <button class="boton-item" onclick="loadFormPage()">Update Clinical Record</button>
-                            </div>
-                            <div class="item">
-                                <span class="titulo-item">English Horse</span>
-                                <img src= "img/profileICON.jpg" alt="" class="img-item">
-                                <a href="#infoPatient" class="enlace">View Info</a>
-                                <button class="boton-item" onclick= "loadFormPage()">Update Clinical Record</button>
-                            </div>
-                            <div class="item">
-                                <span class="titulo-item">Knock Nap</span>
-                                <img src= "img/profileICON.jpg" alt="" class="img-item">
-                                <a href="#infoPatient"class="enlace">View Info</a>
-                                <button class="boton-item" onclick="loadFormPage()">Update Clinical Record</button>
-                            </div>
-                            <div class="item">
-                                <span class="titulo-item">La Night</span>
-                                <img src= "img/profileICON.jpg" alt="" class="img-item">
-                                <a href="#infoPatient" class="enlace">View Info</a>
-                                <button class="boton-item" onclick= "loadFormPage()">Update Clinical Record</button>
-                            </div>
-                            <div class="item">
-                                <span class="titulo-item">Silver All</span>
-                                <img src= "img/profileICON.jpg"alt="" class="img-item">
-                                <a href="#infoPatient"class="enlace">View Info</a>
-                                <button class="boton-item" onclick= "loadFormPage()">Update Clinical Record</button>
-                            </div>
-                            <div class="item">
-                                <span class="titulo-item">Skin Glam</span>
-                                <img src= "img/profileICON.jpg" alt="" class="img-item">
-                                <a href="#infoPatient" class="enlace">View Info</a>
-                                <button class="boton-item" onclick= "loadFormPage()">Update Clinical Record</button>
-                            </div>
-                            <div class="item">
-                                <span class="titulo-item">Midimix</span>
-                                <img src= "img/profileICON.jpg" alt="" class="img-item">
-                                <a href="#infoPatient" class="enlace">View Info</a>
-                                <button class="boton-item" onclick="loadFormPage()">Update Clinical Record</button>
-                            </div>
-                            <div class="item">
-                                <span class="titulo-item">Sir Blue</span>
-                                <img src= "img/profileICON.jpg" alt="" class="img-item">
-                                <a href="#infoPatient" class="enlace">View Info</a>
-                                <button class="boton-item" onclick= "loadFormPage()">Update Clinical Record</button>
-                            </div>
-                            <div class="item">
-                                <span class="titulo-item">Middlesteel</span>
-                                <img src= "img/profileICON.jpg" alt="" class="img-item">
-                                <a href="#infoPatient" class="enlace">View Info</a>
-                                <button class="boton-item" onclick="loadFormPage()">Update Clinical Record</button>
-                            </div>
+                        <div class="contenedor-items" id="contenedor-items-i">
+
+                            <script>
+
+                                async function loadJSON(url) {
+                                                return fetch(url)
+                                                .then((response) => {
+                                                    if (!response.ok) {
+                                                    throw new Error(`Error de red: ${response.status}`);
+                                                    }
+                                                    return response.json();
+                                                })
+                                                .catch((error) => {
+                                                    console.error(`Error al cargar JSON desde ${url}:`, error);
+                                                    throw error; // Relanzar el error para manejo posterior si es necesario
+                                                });
+                                            }
+
+                                const VerPacientes = async() => {
+                                    const Area = document.getElementById("contenedor-items-i");
+                                    const urlPacientes = '/api/doctor/patients/:id';
+                                    const idDoctor = 1;
+                                    const newVerURL = urlPacientes.replace(':id', idDoctor);
+                                    const respuesta = await loadJSON(newVerURL);
+                                    const JSONPacientes = respuesta.data;
+                                    JSONPacientes.map(element => {
+                                        const div = document.createElement("div");
+                                        div.innerHTML = `
+                                            <div class="item">
+                                                <span class="titulo-item">${element.Nombre}</span>
+                                                <img src= "img/profileICON.jpg" alt="" class="img-item">
+                                                <a href="#infoPatient" class="enlace">View Info</a>
+                                                <button class="boton-item" onclick="loadFormPage()">Update Clinical Record</button>
+                                            </div>
+                                        `;
+                                        Area.appendChild(div);
+                                    });
+                                }
+                                
+                                VerPacientes();
+
+                            </script>
+
+
+                            
                         </div>
                     </div>
 
                     <!---Fórmulario para actualizar el historial clinico del paciente-->
                     <form class="crecord-form">
                         <fieldset>
-                            <legend> Prescriptions </legend>
-                            <label for="medicamento">Drug:</label>
+                            <legend> Recetas </legend>
+                            <label for="medicamento">Nombre de medicina:</label>
                             <input type="text" id="medicamento" name="medicamento" required>
 
                             <!-- Dosis -->
-                            <label for="dosage">Dose:</label>
+                            <label for="dosage">Dosis:</label>
                             <input type="text" id="dosis" name="dosis" required>
 
-                            <label for="initial-date">Initial-date:</label>
+                            <label for="initial-date">Fecha:</label>
                             <input type="date" id="initial-date" name="initial-date" required>
 
-                            <label for="medical-prescription">Prescription File</label>
+                            <label for="medical-prescription">Archivo de la receta</label>
                             <input type="file" id="medical-prescription" name="medical-prescription" accept=".pdf,.docx">
 
-                            <button type="button">Submmit</button>
+                            <button type="button">Enviar</button>
                         </fieldset>
 
                         <fieldset>
-                            <legend> Diagnoses </legend>
+                            <legend> Diagnóstico </legend>
 
                             <label for="descripcionDiagnostico">Diagnoses Description:</label>
                             <textarea id= "descripcionDiagnostico" name = "descripcionDiagnostico" rows="4" cols="50" required></textarea>
@@ -517,6 +737,8 @@
                 </div>
             </div>
             </div>
+
+            <!--Informacion-->
             
             <!--Perfil-->
             <div id="profile" class="content">
@@ -651,7 +873,7 @@
             function loadFormPage() {
             // Cancela la edición, vuelve a mostrar la información y oculta el formulario
             document.querySelector('.patientList').style.display = 'none';
-            document.querySelector('crecord-form').style.display = 'block';
+            document.querySelector('crecord-form').style.display = 'flex';
             }
 
 

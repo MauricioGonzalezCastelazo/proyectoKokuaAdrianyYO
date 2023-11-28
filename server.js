@@ -174,6 +174,65 @@ app.get('/api/paciente/Seguimiento:id', (req, res) =>{
     res.json({ data: results });
   });
 });
+
+//------------------------------------------------Doctor--------------------------------
+
+//-----------------------------Citas-------------------------------------------------------------
+app.get('/api/doctor/appointments/:id', (req, res) =>{
+  const idDoctor = req.params.id;
+  console.log(idDoctor);
+  const query = 'Select  Distinct citas.IDCita, citas.IDPaciente, doctores.IDDoctor, pacientes.Nombre, pacientes.Apellido, citas.Fecha, citas.TipoCita, citas.EstatusCita from doctores, citas, pacientes where doctores.IDDoctor = citas.IDDoctor AND citas.IDPaciente = pacientes.IDPaciente AND citas.IDDoctor = ?';
+  pool.query(query, [idDoctor], (error, results, fields) => {
+    if (error) {
+      return res.status(500).json({ error: 'Database query error' });
+    }
+    res.json({ data: results });
+  });
+});
+
+app.post('/api/doctor/appointments', (req, res) => {
+  const nuevaCita = req.body; // Datos de la nueva cita
+  console.log(nuevaCita.IDPaciente);
+
+  const query = 'INSERT INTO citas (IDPaciente, IDDoctor, TipoCita, EstatusCita, Fecha) VALUES (?, ?, ?, ?, ?)';
+  pool.query(query, [nuevaCita.IDPaciente, nuevaCita.IDDoctor, nuevaCita.TipoCita, nuevaCita.EstatusCita, nuevaCita.Fecha], (error, results, fields) => {
+    if (error) {
+      return res.status(500).json({ error: 'Error al insertar la cita' });
+    }
+    // Enviar una respuesta con el ID de la cita insertada
+    res.json({ message: 'Cita insertada con éxito', insertedId: results.insertId });
+  });
+});
+
+app.delete('/api/doctor/appointments/:id', (req, res) => {
+  const idCita = req.params.id;
+
+  const query = 'DELETE FROM citas WHERE IDCita = ?';
+  pool.query(query, [idCita], (error, results, fields) => {
+    if (error) {
+      return res.status(500).json({ error: 'Error al eliminar la cita' });
+    }
+    if (results.affectedRows === 0) {
+      return res.status(404).json({ message: 'Cita no encontrada' });
+    }
+    res.json({ message: 'Cita eliminada con éxito', deletedId: idCita });
+  });
+});
+
+//------------------------------------------------Pacientes---------------------------
+
+app.get('/api/doctor/patients/:id', (req, res) =>{
+  const idDoctor = req.params.id;
+  console.log(idDoctor);
+  const query = 'SELECT pacientes.Nombre FROM pacientes, doctores, asignaciones WHERE pacientes.IDPaciente = asignaciones.IDPaciente AND asignaciones.IDDoctor = doctores.IDDoctor AND doctores.IDDoctor = ?';
+  pool.query(query, [idDoctor], (error, results, fields) => {
+    if (error) {
+      return res.status(500).json({ error: 'Database query error' });
+    }
+    res.json({ data: results });
+  });
+});
+
  //-----------------------------------------------Fin back------------------------------
 
 app.get('/', (req, res) => {
