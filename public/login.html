@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body {font-family: Arial, Helvetica, sans-serif;}
+
+input[type=text], input[type=password] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+button {
+  background-color: blue;
+  border-radius: 10px;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+}
+button:hover{
+    background-color: rgb(46, 46, 245);
+}
+
+button:hover {
+  opacity: 0.8;
+}
+
+
+.imgcontainer {
+  text-align: center;
+  margin: 24px 0 12px 0;
+}
+
+img.avatar {
+  width: 40%;
+  border-radius: 50%;
+}
+
+.container {
+  padding: 16px;
+}
+
+.info-login{
+    position: absolute; 
+    box-shadow: -5px -5px 20px gray;
+    border: 1px solid;
+    border-radius: 10px; 
+    width: 60vh; 
+    height: auto;
+    top: 50%; 
+    left: 50%; 
+    transform: translate(-50%, -50%);
+
+}
+
+span.psw {
+  float: right;
+}
+
+@media screen and (max-width: 300px) {
+  span.psw {
+     display: block;
+     float: none;
+  }
+  .cancelbtn {
+     width: 100%;
+  }
+}
+</style>
+</head>
+<body>
+
+<form action="" method="post">
+  <div class="imgcontainer">
+    <img src="img_avatar2.png" alt="" class="avatar">
+  </div>
+
+  <div class="container info-login">
+    <h2>Login Form</h2>
+    <label for="uname"><b>Username</b></label>
+    <input type="text" placeholder="Enter Username" name="uname" required>
+
+    <label for="psw"><b>Password</b></label>
+    <input type="password" placeholder="Enter Password" name="psw" required>
+    <button type="submit">Login</button>
+    <label>
+      <input type="checkbox" checked="checked" name="remember"> Remember me
+      <span class="psw">Forgot <a href="#">password?</a></span>
+    </label>
+  </div>
+
+</form>
+
+</body>
+</html>

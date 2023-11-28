@@ -1,0 +1,688 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700;900&display=swap");
+/* Start Global Rules */
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+  padding: 0;
+}
+:root {
+  --main-color: #685cfe;
+  --main-transition: 0.5s all ease-in-out;
+}
+body {
+  background-color: #f0f0f0;
+}
+::selection {
+  color: white;
+  background: var(--main-color);
+}
+/* End Global Rules */
+/* Start Sidebar */
+.sidebar {
+  width: 200px;
+  background-color: rgb(169, 221, 255);
+  padding: 20px;
+  position: fixed;
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+  height: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  overflow: hidden;
+  transition: var(--main-transition);
+}
+
+.sidebar .dots {
+  width: 60px;
+}
+.sidebar .profile {
+  width: 55px;
+  height: 55px;
+  border-radius: 15px;
+  color: #fff;
+  background-color: var(--main-color);
+  display: grid;
+  place-items: center;
+  font-size: 25px;
+  margin: 10px 0;
+}
+.sidebar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.sidebar ul {
+  padding-bottom: 0px;
+  list-style: none;
+}
+.sidebar ul span {
+  color: #8f99cc;
+  text-transform: uppercase;
+  font-weight: 400;
+  font-size: 13px;
+  display: block;
+  padding-bottom: 10px;
+}
+.sidebar ul li {
+  padding-left: 10px;
+  transition: var(--main-transition);
+}
+
+.sidebar ul li a {
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-radius: 15px;
+  font-size: 16px;
+  width: 300px;
+  color: #555e8f;
+  font-weight: 500;
+  text-decoration: none;
+  width: 100%;
+}
+
+.sidebar ul li a:hover {
+  background-color: #ebf0fe;
+  color: var(--main-color);
+}
+.sidebar ul li a ion-icon {
+  font-size: 22px;
+}
+.sidebar ul li.noti a ion-icon {
+  position: relative;
+}
+.sidebar ul li.noti a ion-icon::before {
+  content: "";
+  position: absolute;
+  right: 0;
+  background-color: #3761ee;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+.sidebar ul li.likes a ion-icon {
+  position: relative;
+}
+.sidebar ul li.likes a ion-icon::before {
+  content: "";
+  position: absolute;
+  right: 0;
+  background-color: #e45447;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+.sidebar ul li a p {
+  visibility: visible;
+  opacity: 1;
+}
+
+
+/* End Sidebar */
+
+
+/*main content*/
+
+.main-content {
+  margin-left: 210px; /* Ajusta esto según el ancho de tu sidebar */
+}
+
+/* chat */
+.sideChat{
+  display: flex;
+  position:fixed;
+  overflow: scroll;
+  width: 20%;
+}
+.sideChat h6{
+  font-weight: bold; 
+  color: gray;
+}
+.profilePhoto{
+  border-radius: 100px;
+  width: 100px;
+  height: 100px;
+  display: block;
+  margin: 0 auto; 
+}
+.usuario{
+  margin-top: 20px; 
+  margin-bottom: 20px;
+}
+.usuario p{
+  text-align: center;
+  font-size: large;
+}
+.searchBar{
+  border-radius: 10px;
+  height: 40px;
+  width: 100%;
+  background-color: rgb(231, 231, 231);
+  margin-bottom: 30px;
+  border: none;
+}
+.contactArea{
+ display: flex; 
+ padding-top: 20px; 
+ padding-bottom: 20px;
+ border-radius: 20px;
+ height: 100%;
+ width: 100%;
+ background-color:  rgb(231, 231, 231);
+ background: none;
+ border: none;
+}
+.contactArea:hover{
+  background-color: rgb(231, 231, 231);
+}
+
+.contactArea h6{
+  color: black; 
+}
+.imagenContacto{
+  border-radius: 100px;
+  width: 50px;
+  height: 50px;
+
+}
+.fechaContacto{
+  text-align: left;
+} 
+.ulimoMensaje{
+  font-size: small;
+  color: gray;
+  white-space:pre ;
+}
+
+.chatArea{
+  position:fixed;
+  justify-content: space-between;
+  background-color: rgb(206, 245, 255);
+  width: 100%;
+  height: 100%;
+}
+.chats{
+  margin-top: 5%;
+  margin-left: 2%;
+  overflow: scroll;
+  width: 100%;
+  height: 70%;
+}
+.sendMessage{
+  background-color: rgb(245, 245, 245);
+  border: none; 
+  border-radius: 40px;
+  position: fixed; 
+  bottom: 0.5;
+  width: 50%;
+  height: 50px;
+  margin-left: 20vh; 
+  bottom: 0;
+  margin-bottom: 3vh;
+}
+
+.NombreChat{
+  margin-left: 10px;
+  margin-top: 20px;
+  margin-bottom: 40px;
+  font-weight: 400;
+  position: fixed; 
+}
+.MensajeEmisor{
+  padding: 15px;
+  background-color: rgb(223, 255, 220);
+  width:fit-content;
+  border-radius: 23px;
+  margin-left: 10px;
+}
+.MensajeReceptor{
+  padding: 15px;
+  background-color:rgb(238, 238, 238);
+  width:fit-content;
+  border-radius: 23px;
+  position: relative;
+}
+
+#medicalProcess{
+  display:none;
+}
+#notifications
+{
+  display: none; 
+}
+#clients{
+  display:none;
+}
+#chat{
+  display:none; 
+}
+
+/* clients */
+
+#clients{
+  overflow-x:hidden;
+  overflow-y:scroll;
+}
+#clientes{
+  display: flex;
+}
+.clientName{
+  text-align: center;
+}
+.clientImage{
+  border-radius: 100px; 
+  width: 100px;
+  height: 100px;
+}
+.BloqueCliente{
+    margin: 30px;
+}
+
+/*----------------------------Notificacion--------------------------------*/
+.notificacionTituloDescripcion{
+  display: flex; 
+
+}
+.divHoraNotificacion{
+ margin-left: 5px;
+}
+.divNotificacion{
+  height: fit-content;
+  width: 100%;
+  padding: 20px;
+  border-radius: 20px;
+}
+.divNotificacion:hover{
+  background-color:rgb(238, 238, 238);
+}
+.ponitNotificacion{
+  width: 15px;
+  height: 15px;
+  border-radius: 100px;
+  background-color: blue;
+  
+}
+.titleNotification{ 
+  font-weight: bold;
+  margin-left: 20px;
+
+}
+.timeNotification{
+  color: gray; 
+  font-size: small;
+}
+.descriptionNotification{
+  color: gray; 
+  font-size: small;
+  margin-left: 20px;
+} 
+.lineaNot{
+  width: 100%;
+}
+
+/*-----------------home page------------------------*/
+#homeContent {
+  overflow: hidden;
+  height: 100%;
+  margin: 0 auto; /* Centrar el contenido */
+  padding: 20px;
+  text-align: center;
+  background-color: #f0f0f0;
+}
+
+.textoHospital {
+  font-size: 20px;
+  padding: 20px;
+}
+
+.textoH, .textoHU {
+  font-weight: lighter;
+}
+
+.imgDoctor {
+  width: 100%; /* Ajustar al 100% del contenedor */
+  max-width: 500px; /* Limitar el ancho máximo para mantener la proporción */
+  height: auto; /* Mantener la proporción original */
+  display: block;
+  margin: 20px auto; /* Centrar la imagen */
+}
+
+.imgPaciente {
+  width: 100%; /* Ajustar al 100% del contenedor */
+  max-width: 600px; /* Limitar el ancho máximo para mantener la proporción */
+  height: auto; /* Mantener la proporción original */
+  display: block;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+#profile .profile-info {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#profile .profile-image-container {
+  max-width: 200px;
+  margin: 0 auto;
+  overflow: hidden;
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#profile .profile-image {
+  width: 100%;
+  height: auto;
+  border-radius: 50%;
+}
+
+#profile .profile-details p {
+  color: #495057;
+}
+
+#profile button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+#profile button:hover {
+  background-color: #0056b3;
+}
+
+.profile-form {
+  display: none;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.profile-form label {
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.profile-form input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 15px;
+  box-sizing: border-box;
+}
+
+.profile-form button {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+}
+
+.profile-form button.cancel {
+  background-color: #6c757d;
+}
+
+
+/* Inicio estilos del chat*/
+.chat-list {
+    position: relative;
+    height:calc(100% - 170px);
+    overflow-y: auto;
+  }
+  
+  .chat-list .chat-box {
+    position: relative;
+    width: 100%;
+    display:flex;
+  /*   justify-content: center; */
+    align-items:center;
+    cursor: pointer;
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .chat-list .chat-box .img-box {
+    position:relative;
+    width: 55px;
+    height:45px;
+    overflow:hidden;
+    border-radius: 50%;
+  }
+  
+  .chat-list .chat-box .chat-details {
+    width: 100%;
+    margin-left: 10px;
+  }
+  
+  .chat-list .chat-box .chat-details .text-head {
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom:2px;
+  }
+  
+  .chat-list .chat-box .chat-details .text-head h4 {
+    font-size: 1.1em;
+    font-weight: 600;
+    color: #000;
+  }
+  
+  .chat-list .chat-box .chat-details .text-head .time {
+    font-size: 0.8em;
+    color: #aaa;
+  }
+  
+  .chat-list .chat-box .chat-details .text-message {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .chat-list .chat-box .chat-details .text-message p {
+    color: #aaa;
+    font-size: 0.9em;
+    overlay: hidden;
+  }
+  
+  img {
+    width: 100%;
+    object-fit: cover;
+  }
+  
+  .chat-list .chat-box .chat-details .text-message b {
+    background: #06e744;
+    color: #fff;
+    min-width: 20px;
+    height: 20px;
+    border-radius: 50%;
+  /*   text-align: center; */
+    font-size: 0.8em;
+    font-weight: 400;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+  }
+  
+  .chat-list .active {
+    background: #ebebeb;
+  }
+  
+  .chat-list .chat-box:hover {
+    background: #f5f5f5;
+  }
+  
+  .chat-list .chat-box .chat-details .text-head .unread {
+    color: #06e744;
+  }
+/* Fin estilos del chat*/
+
+
+/* Inicio estilos del form de cita */
+.appointmentForm{
+  max-width: 400px;
+}
+
+.appointmentForm label{
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.appointmentForm input{
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 15px;
+  box-sizing: border-box;
+}
+
+.appointmentForm button {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+}
+
+.warningMessage{
+  color: red
+}
+
+.cancelButton {
+  background-color:#685cfe;
+  color: #fff;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+}
+/* Fin estilos del form de cita */
+
+
+/* Inicio elemento colapse */
+.collapseButton{
+  background-color:#685cfe;
+  width: 400px;
+  color: #fff;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+}
+/* Fin elemento colapse */
+
+
+/* Inicio Estilos Patient Clinical Record */
+.patientList{
+  max-width: 1200px;
+  padding: 10px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  /* oculto lo que queda fuera del .contenedor */
+  contain: paint;
+}
+/* SECCION CONTENEDOR DE ITEMS */
+.patientList .contenedor-items{
+  margin-top: 30px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-gap:30px;
+  grid-row-gap: 30px;
+  /* width: 60%; */
+  width: 100%;
+  transition: .3s;
+}
+.patientList .contenedor-items .item{
+  max-width: 200px;
+  margin: auto;
+  border: 1px solid #666;
+  border-radius: 10px;
+  padding: 20px;
+  transition: .3s;
+}
+.patientList .contenedor-items .item .img-item{
+  width: 100%;
+}
+.patientList .contenedor-items .item:hover{
+  box-shadow: 0 0 10px #666;
+  scale: 1.05;
+}
+.patientList .contenedor-items .item .titulo-item{
+  display: block;
+  font-weight: bold;
+  text-align: center;
+  text-transform: uppercase;
+}
+.patientList .contenedor-items .item .enlace{
+  display: block;
+  text-align: center;
+  font-weight: bold;
+  font-size: 22px;
+}
+
+.patientList .contenedor-items .item .boton-item{
+  display: block;
+  margin: 10px auto;
+  border: none;
+  background-color: black;
+  color: #fff;
+  padding: 5px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* SECCION FORMULARIO CLINICAL RECORD*/
+.crecord-form form {
+  width: 70%;
+  margin: 0 auto;
+}
+
+.crecord-form fieldset {
+  border: 1px solid #ccc;
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
+.crecord-formlegend {
+  font-weight: bold;
+  color: #333;
+}
+
+.crecord-form label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.crecord-form input[type="text"],
+.crecord-form input[type="date"],
+.crecord-form textarea,
+.crecord-form select {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+}
+
+.crecord-form input[type="file"] {
+  margin-top: 5px;
+}
+
+.crecord-form button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.cancel {
+  background-color: #ccc;
+}
+
+

@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+
+        <!--Metadata-->
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Doctor</title>
+
+        <!--Estilos bootstrap-->
+        <link rel="stylesheet" href="style.css" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+        <!--Iconos-->
+        <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+        <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+        <!--Cripto -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
+    
+    </head>
+
+    <!--Generador de HASH -->
+    <script>
+        const cyrb53 = (str, seed = 0) => {
+            let h1 = 0xdeadbeef ^ seed, h2 = 0x41c6ce57 ^ seed;
+            for(let i = 0, ch; i < str.length; i++) {
+                ch = str.charCodeAt(i);
+                h1 = Math.imul(h1 ^ ch, 2654435761);
+                h2 = Math.imul(h2 ^ ch, 1597334677);
+            }
+            h1  = Math.imul(h1 ^ (h1 >>> 16), 2246822507);
+            h1 ^= Math.imul(h2 ^ (h2 >>> 13), 3266489909);
+            h2  = Math.imul(h2 ^ (h2 >>> 16), 2246822507);
+            h2 ^= Math.imul(h1 ^ (h1 >>> 13), 3266489909);
+        
+            return 4294967296 * (2097151 & h2) + (h1 >>> 0);
+        };
+    </script>
+
+        
+    <!--Contenido visible-->
+    <body>
+
+        <!--Barra de navegacion-->
+        <div class="sidebar">
+
+            <div class="dots">
+                <h3> Kokua | Modo Doctor </h3>
+            </div>
+
+            <div class="profile">
+                <ion-icon name="person-outline"></ion-icon>
+            </div>
+
+            <ul>
+                <span>Principal</span>
+                <li>
+                    <a href="#homeContent">
+                        <ion-icon name="home-outline"></ion-icon>
+                        <p>Inicio</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="#notifications">
+                        <ion-icon name="notifications-outline"></ion-icon>
+                        <p>Avisos</p>
+                    </a>
+                </li>
+            </ul>
+
+            <ul>
+                <span>Contenido</span>
+                <li>
+                    <a href="#patients">
+                        <ion-icon name="accessibility-outline"></ion-icon>
+                        <p>Mis pacientes</p>
+                    </a>
+                </li>
+                <li class="likes">
+                    <a href="#update">
+                        <ion-icon name="chatbubble-outline"></ion-icon>
+                        <p>Progreso medico</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="#profile">
+                        <ion-icon name="person-circle-outline"></ion-icon>
+                        <p>Perfil</p>
+                    </a>
+                </li>
+            </ul>
+
+            <ul>
+                <span>Sesión</span>
+                <li>
+                    <a href="#log-out">
+                        <ion-icon name="log-out-outline"></ion-icon>
+                        <p>Salir</p>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+        <!--Fin de la barra de navegacion-->
+
+        <!--Seccion 1 de navegacion-->
+        <div class='main-content'>
+
+            <!--Pagina principal-->
+            <div id="homeContent" class="content">
+                <div class="main">
+                    <div class="row">
+                        <div class="col-sm-6 text-center">
+                            <h4 class="display-4" style="font-weight: lighter;">¡Bienvenido Doctor!</h4>
+                            <br>
+                            <div class="jumbotron p-4 mx-auto w-50" style="background-color: #6275e6; color: #fff;">
+                            <h1>SIGAMOS AYUDANDO</h1>
+                            <h2 style="font-weight: lighter;">A TODO EL MUNDO</h2>
+                            </div>
+                            <br>
+                            <div class="textoHospital">
+                            <p class="textoH"><u>Tu dedicación ilumina caminos hacia la curación</u></p>
+                            <p class="textoHU"><u>Eres la inspiración que guía la esperanza en cada diagnóstico</u></p>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <img src="https://d2lcsjo4hzzyvz.cloudfront.net/blog/wp-content/uploads/2019/12/Me%CC%81dico-atendiendo-a-una-sen%CC%83ora-de-edad.jpg" class="imgDoctor img-fluid">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--Notificaciones-->
+            <div id="notifications" class="content">
+                <div class="main">
+                    <div class="row">
+                        <div class="col-sm-12 text-left">
+                            <h1>
+                                <ion-icon name="notifications-outline"></ion-icon>
+                                Mis notificaciones
+                            </h1>
+                            <p>Hola Doctor, aquí se muestran tus notificaciones.</p>
+                            <br>
+
+                            <h3>
+                                <ion-icon name="calendar-outline"></ion-icon>
+                                Mis citas
+                            </h3>
+                            <br>
+
+                            <button class="collapseButton" data-toggle="collapse" data-target="#appointmentFormCointainer">Nueva cita</button>
+                            <div id="appointmentFormCointainer" class="collapse">
+                                <form id="appointmentForm" class="appointmentForm">
+                                    <label>ID Paciente: &emsp;</label>
+                                    <input id="Citas-ID_Paciente" type="text" placeholder="ID del paciente">
+                                    <br>
+                                    <label>Fecha: &emsp;</label>
+                                    <input id="Citas-Fecha" type="date">
+                                    <br>
+                                    <label>Tipo: &emsp;</label>
+                                    <input id="Citas-Tipo" type="text" placeholder="Tipo de la cita">
+                                    <br>
+                                    <div class="d-flex justify-content-between">
+                                        <p id="Citas-Mensaje" class="warningMessage"></p>
+                                        <button type="button" onclick="newAppointment()">Crear cita</button>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <div id="Appointments" class="col-sm-12 text-left" style="max-height: 250px; overflow-y: scroll;">
+                                <br>
+
+                                <!--Carga y muestra las citas-->
+                                <script>
+
+                                    const doctorID = ""     //Falta como obtenerlo al momento de hacer el log-in
+                                    const campos = "c.IDCita, c.TipoCita, c.EstatusCita, c.Fecha, p.Nombre, p.Apellido"
+                                    const query= `SELECT ${campos} FROM citas c, pacientes p  WHERE 
+                                    c.IDPaciente=p.IDPaciente AND c.IDDoctor=${doctorID};`
+
+                                    //Señalan a donde debe añadir las nuevas citas
+                                    const container = document.getElementById("Appointments")
+                                    const appointmentCointainerClass = "card"
+                                    const cardWidth = 800
+
+                                    const myAppointments = [
+                                        ["1", "Revision", "Por confirmar", "2023-01-01", "Roberto", "Jimenez"],
+                                        ["2", "Cirujia", "Confirmada", "2023-01-05", "Ana", "Gutierrez"],
+                                        ["3", "Tratamiento", "Postergada", "2023-01-10", "Jose", "Gonzalez"]
+                                    ]   //Falta fetch de las citas
+
+                                    const newAppointment = () =>{
+                                        
+                                        //Para insertar mensajes de error 
+                                        const formularioCita = document.getElementById("appointmentForm")
+                                        
+                                        //Controladores de los inputs
+                                        const patientID = document.getElementById("Citas-ID_Paciente")
+                                        const date = document.getElementById("Citas-Fecha")
+                                        const type = document.getElementById("Citas-Tipo")
+
+                                        //Controlador del mensaje de error
+                                        const errorMessage = document.getElementById("Citas-Mensaje")
+
+                                        //Si los campos estan llenos
+                                        if(patientID.value && date.value && type.value){
+
+                                            //Falta verificar la info de la BD para saber si existe el paciente 
+                                            const checkIDquery = `SELECT nombre, apellido FROM pacientes WHERE IDPaciente=${patientID.value};`
+                                            const exists = 1 
+
+                                            //Si existe el paciente
+                                            if(exists){
+
+                                                errorMessage.innerHTML = ""
+
+                                                const ID = cyrb53(patientID.value + doctorID.value + type.value);
+
+                                                //Falta insertarlo en la BD
+                                                const query = `INSERT INTO citas VALUES(${ID}, ${patientID.value}, ${doctorID}, ${type.value}, "Por confirmar", ${date.value});`
+                                    
+                                                
+                                                const newAppointment = document.createElement("div");
+                                                newAppointment.className = appointmentCointainerClass
+                                                newAppointment.style = `width: ${cardWidth}px`
+                                                newAppointment.id = "Cita-" + ID
+                                                newAppointment.innerHTML = `
+                                                    <div class="d-flex justify-content-around" style="width:${cardWidth}px">
+                                                        <p style="width:${cardWidth/5}px">Jose Jimenez</p> 
+                                                        <p style="width:${cardWidth/5}px">${date.value}</p>
+                                                        <p style="width:${cardWidth/5}px">${type.value}</p>
+                                                        <p style="width:${cardWidth/5}px">Por confirmar</p>
+                                                        <button onclick="deleteAppointment(${ID})" class="cancelButton">Cancelar cita</button>
+                                                    </div>
+                                                `;
+
+                                                container.appendChild(newAppointment)
+
+                                                //Borra los valores de la 
+                                                patientID.value = ""
+                                                date.value = ""
+                                                type.value = ""
+                                            }
+                                            else {
+                                                errorMessage.innerHTML = "No existe un paciente con el ID: " + patientID.value
+                                            }
+
+                                        } 
+                                        else {
+                                            errorMessage.innerHTML = "Rellene todos los campos"
+                                        }
+                                    }
+
+                                    const deleteAppointment = (appointmentID) => {
+                                        const query = `DELETE FROM citas WHERE IDCita=${appointmentID};`    //Falta ejecutar el query
+
+                                        /*
+                                        fetch()
+                                            .then()
+                                            .then()
+                                        */
+
+                                        const child = document.getElementById("Cita-" + appointmentID)
+                                        container.removeChild(child)
+                                    }
+
+                                    const loadAppointments = (appointments) => {
+                                        appointments.map(( appointment )=>{
+
+                                            const patientDiv = document.createElement("div");
+                                            patientDiv.className = appointmentCointainerClass
+                                            patientDiv.style = `width: ${cardWidth}px`
+                                            patientDiv.id = "Cita-" + appointment[0]
+                                            patientDiv.innerHTML = `
+                                                <div class="d-flex justify-content-around" style="width:${cardWidth}px">
+                                                    <p style="width:${cardWidth/5}px">${appointment[4] + " " + appointment[5]}</p> 
+                                                    <p style="width:${cardWidth/5}px">${appointment[3]}</p>
+                                                    <p style="width:${cardWidth/5}px">${appointment[1]}</p>
+                                                    <p style="width:${cardWidth/5}px">${appointment[2]}</p>
+                                                    <button onclick="deleteAppointment(${appointment[0]})" class="cancelButton">Cancelar cita</button>
+                                                </div>
+                                                    `;
+                                            container.appendChild(patientDiv);
+                                        })
+                                    }
+
+                                    loadAppointments(myAppointments)
+
+                                </script>
+
+                            </div>
+                            <br>
+                            <br>
+
+                            <h3>
+                                <ion-icon name="bookmarks-outline"></ion-icon>
+                                Mis eventos
+                            </h3>
+                            <br>
+
+                            <div id="Events" class="col-sm-12 text-left">
+                                <p>Hola</p>
+                            </div>
+                            <br>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!--Fin de la seccion 1-->
+
+        <!--Seccion 2 de navegacion-->
+        <div class='main-content'>
+
+            <!--Pacientes-->
+            <div id="patients" class="content">
+                <div class="main">
+                    <div class="row">
+                        <div class="col-sm-12 text-left">
+                            <h1>
+                                <ion-icon name="people-circle-outline"></ion-icon>
+                                Mis pacientes
+                            </h1>
+                            <p>Hola Doctor, aquí se muestran tus pacientes.</p>
+                            <br>
+
+                            <h3>
+                                <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
+                                Mis chats
+                            </h3>
+
+                            <div id="myPatients" class="chat-list" style="width: 400px;height: 400px;overflow-y: scroll;">
+
+                                <!--Get patients and create containers for each one-->
+                                <script>
+                                    const doctorPatients = [
+                                        ["0123","Roberto", "Martinez", "Cancer", "Etapa 1"],
+                                        ["0124","Jorge", "Martinez", "Hepatitis", "Curado"],
+                                        ["0125","Daniela", "Martinez", "Hipertension", "En revision"]
+                                    ];  //Falta fetch de los pacientes
+                                    const clientContainerClass = "chat-box"
+
+                                    const loadPatients = (patients) => {
+
+                                        const container = document.getElementById("myPatients");
+
+                                        for(let i = 0; i < patients.length; i++){
+                                            const patientDiv = document.createElement("div");
+                                            patientDiv.className = clientContainerClass
+                                            patientDiv.innerHTML = `
+                                            <div class="chat-details">
+                                                <div class="text-head">
+                                                    <h4> ${patients[i][1] + " " + patients[i][2]} </h4>
+                                                    <p class="time unread">11:49</p>
+                                                </div>
+                                                <div class="text-message">
+                                                    <p>${patients[i][3] + ": " + patients[i][4]}</p>
+                                                </div>
+                                            </div>
+                                            `;
+                                            container.appendChild(patientDiv);
+                                        }
+                                    };
+
+                                    loadPatients(doctorPatients);
+
+                                </script>
+
+                            </div>
+
+                            <div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--Progreso medico-->
+            <div id="update" class="content">
+            <div class="main">
+                <div class="row">
+                <div class="col-sm-12 text-left">
+                    <h1>Progreso medico</h1>
+                    <div class="patientList">
+                        <div class="contenedor-items">
+                            <div class="item">
+                                <span class="titulo-item">Box Engasse</span>
+                                <img src= "img/profileICON.jpg" alt="" class="img-item">
+                                <a href="#infoPatient" class="enlace">View Info</a>
+                                <button class="boton-item" onclick="loadFormPage()">Update Clinical Record</button>
+                            </div>
+                            <div class="item">
+                                <span class="titulo-item">English Horse</span>
+                                <img src= "img/profileICON.jpg" alt="" class="img-item">
+                                <a href="#infoPatient" class="enlace">View Info</a>
+                                <button class="boton-item" onclick= "loadFormPage()">Update Clinical Record</button>
+                            </div>
+                            <div class="item">
+                                <span class="titulo-item">Knock Nap</span>
+                                <img src= "img/profileICON.jpg" alt="" class="img-item">
+                                <a href="#infoPatient"class="enlace">View Info</a>
+                                <button class="boton-item" onclick="loadFormPage()">Update Clinical Record</button>
+                            </div>
+                            <div class="item">
+                                <span class="titulo-item">La Night</span>
+                                <img src= "img/profileICON.jpg" alt="" class="img-item">
+                                <a href="#infoPatient" class="enlace">View Info</a>
+                                <button class="boton-item" onclick= "loadFormPage()">Update Clinical Record</button>
+                            </div>
+                            <div class="item">
+                                <span class="titulo-item">Silver All</span>
+                                <img src= "img/profileICON.jpg"alt="" class="img-item">
+                                <a href="#infoPatient"class="enlace">View Info</a>
+                                <button class="boton-item" onclick= "loadFormPage()">Update Clinical Record</button>
+                            </div>
+                            <div class="item">
+                                <span class="titulo-item">Skin Glam</span>
+                                <img src= "img/profileICON.jpg" alt="" class="img-item">
+                                <a href="#infoPatient" class="enlace">View Info</a>
+                                <button class="boton-item" onclick= "loadFormPage()">Update Clinical Record</button>
+                            </div>
+                            <div class="item">
+                                <span class="titulo-item">Midimix</span>
+                                <img src= "img/profileICON.jpg" alt="" class="img-item">
+                                <a href="#infoPatient" class="enlace">View Info</a>
+                                <button class="boton-item" onclick="loadFormPage()">Update Clinical Record</button>
+                            </div>
+                            <div class="item">
+                                <span class="titulo-item">Sir Blue</span>
+                                <img src= "img/profileICON.jpg" alt="" class="img-item">
+                                <a href="#infoPatient" class="enlace">View Info</a>
+                                <button class="boton-item" onclick= "loadFormPage()">Update Clinical Record</button>
+                            </div>
+                            <div class="item">
+                                <span class="titulo-item">Middlesteel</span>
+                                <img src= "img/profileICON.jpg" alt="" class="img-item">
+                                <a href="#infoPatient" class="enlace">View Info</a>
+                                <button class="boton-item" onclick="loadFormPage()">Update Clinical Record</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!---Fórmulario para actualizar el historial clinico del paciente-->
+                    <form class="crecord-form">
+                        <fieldset>
+                            <legend> Prescriptions </legend>
+                            <label for="medicamento">Drug:</label>
+                            <input type="text" id="medicamento" name="medicamento" required>
+
+                            <!-- Dosis -->
+                            <label for="dosage">Dose:</label>
+                            <input type="text" id="dosis" name="dosis" required>
+
+                            <label for="initial-date">Initial-date:</label>
+                            <input type="date" id="initial-date" name="initial-date" required>
+
+                            <label for="medical-prescription">Prescription File</label>
+                            <input type="file" id="medical-prescription" name="medical-prescription" accept=".pdf,.docx">
+
+                            <button type="button">Submmit</button>
+                        </fieldset>
+
+                        <fieldset>
+                            <legend> Diagnoses </legend>
+
+                            <label for="descripcionDiagnostico">Diagnoses Description:</label>
+                            <textarea id= "descripcionDiagnostico" name = "descripcionDiagnostico" rows="4" cols="50" required></textarea>
+
+                            <label for="estudiosRequeridos"> Required Test:</label>
+                            <textarea id= "estudiosRequeridos" name = "estudiosRequeridos" rows="4" cols="50" required></textarea>
+
+                            <label for="medical-report">Medical Report</label>
+                            <input type="file" id="medical-report" name="medical-report" accept=".pdf,.docx">
+                            
+                            <button type="button">Submmit</button>
+                        </fieldset>
+
+                        <fieldset> 
+                            <legend>TestResults</legend>
+                            <label for="studySelect">Select Chronic Diseases Study:</label>
+                            <select id="studySelect" name="studySelect" required>
+                                <option value="" disabled selected>Select a Study</option>
+                                <option value="X-RAY">X-RAY</option>
+                                <option value="EKG">EKG</option>
+                                <option value="RM">RM</option>
+                                <option value="TM">TM</option>
+                                <option value="BloodAnalysis">Blood Tests</option>
+                                <option value="EPOC">EPOC</option>
+                                <option value="Ecografia">Ultrasound</option>
+                                <option value="Holter">Holter Monitory</option>
+                                <option value="Mamografia">Mammography</option>
+                                <option value="Colonoscopia">Colonoscopy</option>
+                            </select>
+
+                            <label for="anotaciones"> Observations:</label>
+                            <textarea id= "anotaciones" name = "anotaciones" rows="4" cols="50" required></textarea>
+
+                            <label for="medical-study">Medical Study</label>
+                            <input type="file" id="medical-study" name="medical-report" accept=".pdf,.docx /*,video/*,image/" required>
+
+                            <button type="button">Submmit</button>
+                        </fieldset>
+    
+                        <button type="button" onclick="saveProfile()">Guardar Cambios</button>
+                        <button type="button" class="cancel" onclick="cancelEdit()">Cancelar</button>
+                     </form>
+                </div>
+                </div>
+            </div>
+            </div>
+            
+            <!--Perfil-->
+            <div id="profile" class="content">
+            <div class="main">
+                <div class="row">
+                <div class="col-sm-12 text-left">
+                    <h1><ion-icon name="person-circle-outline"></ion-icon>Mi perfil</h1>
+                    <div class="profile-info">
+                    <div class="profile-image-container">
+                        <img class="profile-image" src="https://media.licdn.com/dms/image/C4E03AQHN8xgseevCiA/profile-displayphoto-shrink_800_800/0/1516517482014?e=2147483647&v=beta&t=j98hf-SQssBnepwI5c5S7tFsnoleqeiJuycdDPcVGrc" alt="Doctor Profile">
+                    </div>
+                    <div class="profile-details">
+                        <p><strong>Nombre:</strong> Dr. Parecido</p>
+                        <p><strong>Fecha de Nacimiento:</strong> 1988-01-01</p>
+                        <p><strong>Doctorado:</strong> Especialidad en...</p>
+                        <p><strong>Número de pacientes tratados:</strong> 200</p>
+                        <p><strong>Lugar de atención:</strong> Hospital XYZ</p>
+                        <p><strong>Estudios:</strong> Universidad ABC, Año de graduación</p>
+                    </div>
+                    </div>
+                    <button onclick="editProfile()">Editar Perfil</button>
+
+                    <!-- Formulario de edición de perfil -->
+                    <form class="profile-form">
+                    <label for="nombre">Nombre:</label>
+                    <input type="text" id="nombre" name="nombre" value="Dr. Nombre Apellido">
+
+                    <label for="fecha-nacimiento">Fecha de Nacimiento:</label>
+                    <input type="date" id="fecha-nacimiento" name="fecha-nacimiento" value="1988-01-01">
+
+                    <label for="doctorado">Doctorado:</label>
+                    <input type="text" id="doctorado" name="doctorado" value="Especialidad en...">
+
+                    <label for="num-pacientes">Número de pacientes tratados:</label>
+                    <input type="text" id="num-pacientes" name="num-pacientes" value="200">
+
+                    <label for="lugar-atencion">Lugar de atención:</label>
+                    <input type="text" id="lugar-atencion" name="lugar-atencion" value="Hospital XYZ">
+
+                    <label for="estudios">Estudios:</label>
+                    <input type="text" id="estudios" name="estudios" value="Universidad ABC, Año de graduación">
+
+                    <label for="imagen-perfil">Foto de Perfil:</label>
+                    <input type="file" id="imagen-perfil" name="imagen-perfil" accept="image/*" onchange="previewImage()">
+
+                    <div class="profile-image-container">
+                        <img class="profile-image" id="preview" alt="Vista previa de la imagen">
+                    </div>
+
+                    <button type="button" onclick="saveProfile()">Guardar Cambios</button>
+                    <button type="button" class="cancel" onclick="cancelEdit()">Cancelar</button>
+                    </form>
+                </div>
+                </div>
+            </div>
+            </div>
+
+        </div>
+        <!--Fin de la seccion 2-->
+
+        <!--Seccion 3 de navegacion-->
+        <div class='main-content'>
+
+            <!--Cerrar sesion-->
+            <div id="log-out" class="content">
+                <div class="main">
+                    <div class="row">
+                        <div class="col-sm-6 text-center">
+                            <h4 class="display-4" style="font-weight: lighter;">Hasta luego doctor</h4>
+                            <br>
+                            <div class="jumbotron p-4 mx-auto w-50" style="background-color: #6275e6; color: #fff;">
+                                <h1>
+                                    Esperamos contar de nuevo con su ayuda
+                                </h1>
+                            </div>
+                            <br>
+                        </div>
+                        <div style="height: 800px; width: 400px;">
+                            <img src="https://static.vecteezy.com/system/resources/previews/003/462/807/non_2x/one-line-drawing-of-children-giving-love-heart-shaped-vector.jpg" class="imgDoctor img-fluid">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!--Fin de la seccion 3-->
+
+        <!-- Seccion de funciones de JS -->
+        <script>
+            // Script para manejar el cambio de hash y mostrar/ocultar el contenido correspondiente
+            document.addEventListener("DOMContentLoaded", function () {
+            // Manejar el cambio de hash
+            window.addEventListener("hashchange", function () {
+                // Ocultar todos los contenidos
+                var contents = document.querySelectorAll(".content");
+                contents.forEach(function (content) {
+                content.style.display = "none";
+                });
+
+                // Mostrar el contenido correspondiente al hash actual
+                var currentHash = window.location.hash.substring(1);
+                var currentContent = document.getElementById(currentHash);
+                if (currentContent) {
+                currentContent.style.display = "block";
+                }
+            });
+
+            // Simular el evento hashchange al cargar la página
+            var hashChangeEvent = new Event("hashchange");
+            window.dispatchEvent(hashChangeEvent);
+            });
+
+            function editProfile() {
+            // Oculta la información y muestra el formulario de edición
+            document.querySelector('.profile-info').style.display = 'none';
+            document.querySelector('.profile-form').style.display = 'block';
+            }
+
+            function saveProfile() {
+            // Lógica para guardar los cambios (puedes enviar los datos a un servidor, almacenarlos en localStorage, etc.)
+            // Aquí simplemente se vuelve a mostrar la información y se oculta el formulario
+            document.querySelector('.profile-info').style.display = 'flex';
+            document.querySelector('.profile-form').style.display = 'none';
+            }
+
+            function cancelEdit() {
+            // Cancela la edición, vuelve a mostrar la información y oculta el formulario
+            document.querySelector('.profile-info').style.display = 'flex';
+            document.querySelector('.profile-form').style.display = 'none';
+            }
+
+            function loadFormPage() {
+            // Cancela la edición, vuelve a mostrar la información y oculta el formulario
+            document.querySelector('.patientList').style.display = 'none';
+            document.querySelector('crecord-form').style.display = 'block';
+            }
+
+
+            function previewImage() {
+            // Muestra la vista previa de la imagen seleccionada
+            var input = document.getElementById('imagen-perfil');
+            var preview = document.getElementById('preview');
+
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                preview.src = e.target.result;
+            };
+
+            reader.readAsDataURL(input.files[0]);
+            }
+    
+        </script>
+
+    </body>
+</html>
