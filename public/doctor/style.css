@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700;900&display=swap");
+
 /* Start Global Rules */
 * {
   -webkit-box-sizing: border-box;
@@ -8,17 +9,21 @@
   margin: 0;
   padding: 0;
 }
+
 :root {
   --main-color: #685cfe;
   --main-transition: 0.5s all ease-in-out;
 }
+
 body {
   background-color: #f0f0f0;
 }
+
 ::selection {
   color: white;
   background: var(--main-color);
 }
+
 /* End Global Rules */
 /* Start Sidebar */
 .sidebar {
@@ -38,6 +43,7 @@ body {
 .sidebar .dots {
   width: 60px;
 }
+
 .sidebar .profile {
   width: 55px;
   height: 55px;
@@ -49,15 +55,18 @@ body {
   font-size: 25px;
   margin: 10px 0;
 }
+
 .sidebar img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
+
 .sidebar ul {
   padding-bottom: 0px;
   list-style: none;
 }
+
 .sidebar ul span {
   color: #8f99cc;
   text-transform: uppercase;
@@ -66,6 +75,7 @@ body {
   display: block;
   padding-bottom: 10px;
 }
+
 .sidebar ul li {
   padding-left: 10px;
   transition: var(--main-transition);
@@ -89,12 +99,15 @@ body {
   background-color: #ebf0fe;
   color: var(--main-color);
 }
+
 .sidebar ul li a ion-icon {
   font-size: 22px;
 }
+
 .sidebar ul li.noti a ion-icon {
   position: relative;
 }
+
 .sidebar ul li.noti a ion-icon::before {
   content: "";
   position: absolute;
@@ -104,9 +117,11 @@ body {
   height: 10px;
   border-radius: 50%;
 }
+
 .sidebar ul li.likes a ion-icon {
   position: relative;
 }
+
 .sidebar ul li.likes a ion-icon::before {
   content: "";
   position: absolute;
@@ -116,6 +131,7 @@ body {
   height: 10px;
   border-radius: 50%;
 }
+
 .sidebar ul li a p {
   visibility: visible;
   opacity: 1;
@@ -128,36 +144,42 @@ body {
 /*main content*/
 
 .main-content {
-  margin-left: 210px; /* Ajusta esto según el ancho de tu sidebar */
+  margin-left: 210px;
+  /* Ajusta esto según el ancho de tu sidebar */
 }
 
 /* chat */
-.sideChat{
+.sideChat {
   display: flex;
-  position:fixed;
+  position: fixed;
   overflow: scroll;
   width: 20%;
 }
-.sideChat h6{
-  font-weight: bold; 
+
+.sideChat h6 {
+  font-weight: bold;
   color: gray;
 }
-.profilePhoto{
+
+.profilePhoto {
   border-radius: 100px;
   width: 100px;
   height: 100px;
   display: block;
-  margin: 0 auto; 
+  margin: 0 auto;
 }
-.usuario{
-  margin-top: 20px; 
+
+.usuario {
+  margin-top: 20px;
   margin-bottom: 20px;
 }
-.usuario p{
+
+.usuario p {
   text-align: center;
   font-size: large;
 }
-.searchBar{
+
+.searchBar {
   border-radius: 10px;
   height: 40px;
   width: 100%;
@@ -165,162 +187,185 @@ body {
   margin-bottom: 30px;
   border: none;
 }
-.contactArea{
- display: flex; 
- padding-top: 20px; 
- padding-bottom: 20px;
- border-radius: 20px;
- height: 100%;
- width: 100%;
- background-color:  rgb(231, 231, 231);
- background: none;
- border: none;
+
+.contactArea {
+  display: flex;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  border-radius: 20px;
+  height: 100%;
+  width: 100%;
+  background-color: rgb(231, 231, 231);
+  background: none;
+  border: none;
 }
-.contactArea:hover{
+
+.contactArea:hover {
   background-color: rgb(231, 231, 231);
 }
 
-.contactArea h6{
-  color: black; 
+.contactArea h6 {
+  color: black;
 }
-.imagenContacto{
+
+.imagenContacto {
   border-radius: 100px;
   width: 50px;
   height: 50px;
 
 }
-.fechaContacto{
+
+.fechaContacto {
   text-align: left;
-} 
-.ulimoMensaje{
-  font-size: small;
-  color: gray;
-  white-space:pre ;
 }
 
-.chatArea{
-  position:fixed;
+.ulimoMensaje {
+  font-size: small;
+  color: gray;
+  white-space: pre;
+}
+
+.chatArea {
+  position: fixed;
   justify-content: space-between;
   background-color: rgb(206, 245, 255);
   width: 100%;
   height: 100%;
 }
-.chats{
+
+.chats {
   margin-top: 5%;
   margin-left: 2%;
   overflow: scroll;
   width: 100%;
   height: 70%;
 }
-.sendMessage{
+
+.sendMessage {
   background-color: rgb(245, 245, 245);
-  border: none; 
+  border: none;
   border-radius: 40px;
-  position: fixed; 
+  position: fixed;
   bottom: 0.5;
   width: 50%;
   height: 50px;
-  margin-left: 20vh; 
+  margin-left: 20vh;
   bottom: 0;
   margin-bottom: 3vh;
 }
 
-.NombreChat{
+.NombreChat {
   margin-left: 10px;
   margin-top: 20px;
   margin-bottom: 40px;
   font-weight: 400;
-  position: fixed; 
+  position: fixed;
 }
-.MensajeEmisor{
+
+.MensajeEmisor {
   padding: 15px;
   background-color: rgb(223, 255, 220);
-  width:fit-content;
+  width: fit-content;
   border-radius: 23px;
   margin-left: 10px;
 }
-.MensajeReceptor{
+
+.MensajeReceptor {
   padding: 15px;
-  background-color:rgb(238, 238, 238);
-  width:fit-content;
+  background-color: rgb(238, 238, 238);
+  width: fit-content;
   border-radius: 23px;
   position: relative;
 }
 
-#medicalProcess{
-  display:none;
+#medicalProcess {
+  display: none;
 }
-#notifications
-{
-  display: none; 
+
+#notifications {
+  display: none;
 }
-#clients{
-  display:none;
+
+#clients {
+  display: none;
 }
-#chat{
-  display:none; 
+
+#chat {
+  display: none;
 }
 
 /* clients */
 
-#clients{
-  overflow-x:hidden;
-  overflow-y:scroll;
+#clients {
+  overflow-x: hidden;
+  overflow-y: scroll;
 }
-#clientes{
+
+#clientes {
   display: flex;
 }
-.clientName{
+
+.clientName {
   text-align: center;
 }
-.clientImage{
-  border-radius: 100px; 
+
+.clientImage {
+  border-radius: 100px;
   width: 100px;
   height: 100px;
 }
-.BloqueCliente{
-    margin: 30px;
+
+.BloqueCliente {
+  margin: 30px;
 }
 
 /*----------------------------Notificacion--------------------------------*/
-.notificacionTituloDescripcion{
-  display: flex; 
+.notificacionTituloDescripcion {
+  display: flex;
 
 }
-.divHoraNotificacion{
- margin-left: 5px;
+
+.divHoraNotificacion {
+  margin-left: 5px;
 }
-.divNotificacion{
+
+.divNotificacion {
   height: fit-content;
   width: 100%;
   padding: 20px;
   border-radius: 20px;
 }
-.divNotificacion:hover{
-  background-color:rgb(238, 238, 238);
+
+.divNotificacion:hover {
+  background-color: rgb(238, 238, 238);
 }
-.ponitNotificacion{
+
+.ponitNotificacion {
   width: 15px;
   height: 15px;
   border-radius: 100px;
   background-color: blue;
-  
+
 }
-.titleNotification{ 
+
+.titleNotification {
   font-weight: bold;
   margin-left: 20px;
 
 }
-.timeNotification{
-  color: gray; 
+
+.timeNotification {
+  color: gray;
   font-size: small;
 }
-.descriptionNotification{
-  color: gray; 
+
+.descriptionNotification {
+  color: gray;
   font-size: small;
   margin-left: 20px;
-} 
-.lineaNot{
+}
+
+.lineaNot {
   width: 100%;
 }
 
@@ -328,7 +373,8 @@ body {
 #homeContent {
   overflow: hidden;
   height: 100%;
-  margin: 0 auto; /* Centrar el contenido */
+  margin: 0 auto;
+  /* Centrar el contenido */
   padding: 20px;
   text-align: center;
   background-color: #f0f0f0;
@@ -339,22 +385,30 @@ body {
   padding: 20px;
 }
 
-.textoH, .textoHU {
+.textoH,
+.textoHU {
   font-weight: lighter;
 }
 
 .imgDoctor {
-  width: 100%; /* Ajustar al 100% del contenedor */
-  max-width: 500px; /* Limitar el ancho máximo para mantener la proporción */
-  height: auto; /* Mantener la proporción original */
+  width: 100%;
+  /* Ajustar al 100% del contenedor */
+  max-width: 500px;
+  /* Limitar el ancho máximo para mantener la proporción */
+  height: auto;
+  /* Mantener la proporción original */
   display: block;
-  margin: 20px auto; /* Centrar la imagen */
+  margin: 20px auto;
+  /* Centrar la imagen */
 }
 
 .imgPaciente {
-  width: 100%; /* Ajustar al 100% del contenedor */
-  max-width: 600px; /* Limitar el ancho máximo para mantener la proporción */
-  height: auto; /* Mantener la proporción original */
+  width: 100%;
+  /* Ajustar al 100% del contenedor */
+  max-width: 600px;
+  /* Limitar el ancho máximo para mantener la proporción */
+  height: auto;
+  /* Mantener la proporción original */
   display: block;
   margin-top: 20px;
   margin-bottom: 20px;
@@ -432,109 +486,110 @@ body {
 
 /* Inicio estilos del chat*/
 .chat-list {
-    position: relative;
-    height:calc(100% - 170px);
-    overflow-y: auto;
-  }
-  
-  .chat-list .chat-box {
-    position: relative;
-    width: 100%;
-    display:flex;
+  position: relative;
+  height: calc(100% - 170px);
+  overflow-y: auto;
+}
+
+.chat-list .chat-box {
+  position: relative;
+  width: 100%;
+  display: flex;
   /*   justify-content: center; */
-    align-items:center;
-    cursor: pointer;
-    padding: 15px;
-    border-bottom: 1px solid #eee;
-  }
-  
-  .chat-list .chat-box .img-box {
-    position:relative;
-    width: 55px;
-    height:45px;
-    overflow:hidden;
-    border-radius: 50%;
-  }
-  
-  .chat-list .chat-box .chat-details {
-    width: 100%;
-    margin-left: 10px;
-  }
-  
-  .chat-list .chat-box .chat-details .text-head {
-    display:flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom:2px;
-  }
-  
-  .chat-list .chat-box .chat-details .text-head h4 {
-    font-size: 1.1em;
-    font-weight: 600;
-    color: #000;
-  }
-  
-  .chat-list .chat-box .chat-details .text-head .time {
-    font-size: 0.8em;
-    color: #aaa;
-  }
-  
-  .chat-list .chat-box .chat-details .text-message {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .chat-list .chat-box .chat-details .text-message p {
-    color: #aaa;
-    font-size: 0.9em;
-    overlay: hidden;
-  }
-  
-  img {
-    width: 100%;
-    object-fit: cover;
-  }
-  
-  .chat-list .chat-box .chat-details .text-message b {
-    background: #06e744;
-    color: #fff;
-    min-width: 20px;
-    height: 20px;
-    border-radius: 50%;
+  align-items: center;
+  cursor: pointer;
+  padding: 15px;
+  border-bottom: 1px solid #eee;
+}
+
+.chat-list .chat-box .img-box {
+  position: relative;
+  width: 55px;
+  height: 45px;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+.chat-list .chat-box .chat-details {
+  width: 100%;
+  margin-left: 10px;
+}
+
+.chat-list .chat-box .chat-details .text-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2px;
+}
+
+.chat-list .chat-box .chat-details .text-head h4 {
+  font-size: 1.1em;
+  font-weight: 600;
+  color: #000;
+}
+
+.chat-list .chat-box .chat-details .text-head .time {
+  font-size: 0.8em;
+  color: #aaa;
+}
+
+.chat-list .chat-box .chat-details .text-message {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chat-list .chat-box .chat-details .text-message p {
+  color: #aaa;
+  font-size: 0.9em;
+  overlay: hidden;
+}
+
+img {
+  width: 100%;
+  object-fit: cover;
+}
+
+.chat-list .chat-box .chat-details .text-message b {
+  background: #06e744;
+  color: #fff;
+  min-width: 20px;
+  height: 20px;
+  border-radius: 50%;
   /*   text-align: center; */
-    font-size: 0.8em;
-    font-weight: 400;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-  }
-  
-  .chat-list .active {
-    background: #ebebeb;
-  }
-  
-  .chat-list .chat-box:hover {
-    background: #f5f5f5;
-  }
-  
-  .chat-list .chat-box .chat-details .text-head .unread {
-    color: #06e744;
-  }
+  font-size: 0.8em;
+  font-weight: 400;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.chat-list .active {
+  background: #ebebeb;
+}
+
+.chat-list .chat-box:hover {
+  background: #f5f5f5;
+}
+
+.chat-list .chat-box .chat-details .text-head .unread {
+  color: #06e744;
+}
+
 /* Fin estilos del chat*/
 
 
 /* Inicio estilos del form de cita */
-.appointmentForm{
+.appointmentForm {
   max-width: 400px;
 }
 
-.appointmentForm label{
+.appointmentForm label {
   font-weight: bold;
   margin-top: 10px;
 }
 
-.appointmentForm input{
+.appointmentForm input {
   width: 100%;
   padding: 8px;
   margin-bottom: 15px;
@@ -549,34 +604,36 @@ body {
   cursor: pointer;
 }
 
-.warningMessage{
+.warningMessage {
   color: red
 }
 
 .cancelButton {
-  background-color:#685cfe;
+  background-color: #007bff;
   color: #fff;
   padding: 10px;
   border: none;
   cursor: pointer;
 }
+
 /* Fin estilos del form de cita */
 
 
 /* Inicio elemento colapse */
-.collapseButton{
-  background-color:#685cfe;
+.collapseButton {
+  background-color: #007bff;
   width: 400px;
   color: #fff;
   padding: 10px;
   border: none;
   cursor: pointer;
 }
+
 /* Fin elemento colapse */
 
 
 /* Inicio Estilos Patient Clinical Record */
-.patientList{
+.patientList {
   max-width: 1200px;
   padding: 10px;
   margin: auto;
@@ -585,18 +642,20 @@ body {
   /* oculto lo que queda fuera del .contenedor */
   contain: paint;
 }
+
 /* SECCION CONTENEDOR DE ITEMS */
-.patientList .contenedor-items{
+.patientList .contenedor-items {
   margin-top: 30px;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  grid-gap:30px;
+  grid-gap: 30px;
   grid-row-gap: 30px;
   /* width: 60%; */
   width: 100%;
   transition: .3s;
 }
-.patientList .contenedor-items .item{
+
+.patientList .contenedor-items .item {
   max-width: 200px;
   margin: auto;
   border: 1px solid #666;
@@ -604,27 +663,31 @@ body {
   padding: 20px;
   transition: .3s;
 }
-.patientList .contenedor-items .item .img-item{
+
+.patientList .contenedor-items .item .img-item {
   width: 100%;
 }
-.patientList .contenedor-items .item:hover{
+
+.patientList .contenedor-items .item:hover {
   box-shadow: 0 0 10px #666;
   scale: 1.05;
 }
-.patientList .contenedor-items .item .titulo-item{
+
+.patientList .contenedor-items .item .titulo-item {
   display: block;
   font-weight: bold;
   text-align: center;
   text-transform: uppercase;
 }
-.patientList .contenedor-items .item .enlace{
+
+.patientList .contenedor-items .item .enlace {
   display: block;
   text-align: center;
   font-weight: bold;
   font-size: 22px;
 }
 
-.patientList .contenedor-items .item .boton-item{
+.patientList .contenedor-items .item .boton-item {
   display: block;
   margin: 10px auto;
   border: none;
@@ -636,9 +699,7 @@ body {
 }
 
 /* SECCION FORMULARIO CLINICAL RECORD*/
-.crecord-form {
-  
-}
+.crecord-form {}
 
 .crecord-form form {
 
@@ -691,3 +752,201 @@ body {
 }
 
 
+/*---------------------info paciente---------------------------------------------*/
+#Dash {
+  background-color: rgba(240, 248, 255, 0.87);
+  height: 100%;
+  width: 100%;
+}
+
+#patientInfo {
+  padding: 10px;
+  border-radius: 15px;
+  background-color: white;
+  width: 250px;
+  margin-top: 5%;
+  margin: 0 auto;
+}
+
+#patientInfo p {
+  font-size: small;
+  color: lightgray;
+  text-align: left;
+}
+
+.info-container {
+  display: flex;
+  align-items: center;
+}
+
+.icono-grande {
+  font-size: 30px;
+  /* Ajusta el tamaño según tus necesidades */
+  margin-right: 10px;
+  /* Espacio entre el icono y el texto */
+}
+
+.texto-info p,
+.texto-info h6 {
+  margin: 0;
+  /* Remueve márgenes predeterminados para alinear mejor */
+}
+
+#CitasArea {
+  background-color: white;
+  /* Fondo blanco para el contenedor */
+  border-radius: 10px;
+  /* Bordes redondeados */
+  padding: 20px;
+  /* Espaciado interno para que no esté todo apretado */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  /* Sombra sutil */
+  margin: 20px auto;
+  /* Centrado y con margen */
+  max-width: 90%;
+  /* Ancho máximo para no ocupar toda la pantalla */
+}
+
+.tabla-citas {
+  width: 100%;
+  /* La tabla ocupa todo el ancho del contenedor */
+  border-collapse: collapse;
+  /* Elimina el espacio entre las celdas */
+  margin: 0 auto;
+  /* Centra la tabla */
+}
+
+.tabla-citas th,
+.tabla-citas td {
+  border: 1px solid #ddd;
+  /* Bordes suaves para las celdas */
+  padding: 10px;
+  /* Espaciado interno en las celdas */
+  text-align: left;
+  /* Alineación del texto */
+}
+
+.tabla-citas th {
+  background-color: #f2f2f2;
+  /* Fondo gris claro para los encabezados */
+  color: #333;
+  /* Color del texto para los encabezados */
+}
+
+.tabla-citas tr:nth-child(odd) {
+  background-color: #f9f9f9;
+  /* Fondo alternativo para las filas */
+}
+
+.tabla-citas tr:hover {
+  background-color: #eef;
+  /* Color al pasar el mouse sobre una fila */
+}
+
+.linea-tiempo-container {
+  display: flex;
+  justify-content: space-between;
+  /* Distribuye los elementos uniformemente */
+  align-items: center;
+  overflow-x: auto;
+  white-space: nowrap;
+  position: relative;
+  margin: 20px 0;
+  /* Añade margen arriba y abajo */
+  padding: 10px 0;
+}
+
+.linea-tiempo-container::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background-color: #e0e0e0;
+  z-index: 1;
+}
+
+.punto-linea-tiempo {
+  position: relative;
+  z-index: 2;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  flex: 1;
+  /* Asegura que cada punto tenga el mismo espacio */
+  text-align: center;
+  /* Alinea el texto de las fechas en el centro */
+}
+
+.punto-linea-tiempo::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background-color: #4CAF50;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.punto-linea-tiempo:hover::before {
+  background-color: #66bb6a;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  transform: translate(-50%, -50%) scale(1.1);
+}
+
+.label-fecha {
+  margin-top: 30px;
+  text-align: center;
+  font-size: 0.9em;
+  color: #333;
+  transition: color 0.3s ease;
+}
+
+.punto-linea-tiempo:hover .label-fecha {
+  color: #66bb6a;
+}
+
+
+
+.tarjeta-medicina {
+  background-color: #fff;
+  border-radius: 15px;
+  padding: 20px;
+  margin: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  width: calc(33.333% - 30px);
+  /* Tres tarjetas por fila */
+}
+
+.tarjeta-medicina:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.tarjeta-medicina h5 {
+  color: #333;
+  font-size: 1.1em;
+  margin-bottom: 10px;
+}
+
+.tarjeta-medicina p {
+  color: #555;
+  font-size: 0.9em;
+}
+
+#MedicamentosArea {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+
+#rec-form {
+  display: none;
+}

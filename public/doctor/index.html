@@ -790,8 +790,8 @@
                     }
 
                     const VerPacientes = async () => {
-                      const Area =
-                        document.getElementById("contenedor-items-i");
+                        const Area = document.getElementById("contenedor-items-i"); // Asegúrate de que este es el ID correcto
+                        Area.style.display = 'block'; // Asegúrate de que este contenedor se muestre inicialmente
                       const urlPacientes = "/api/doctor/patients/:id";
                       const idDoctor = 1;
                       const newVerURL = urlPacientes.replace(":id", idDoctor);
@@ -800,10 +800,10 @@
                       JSONPacientes.map((element) => {
                         const div = document.createElement("div");
                         div.innerHTML = `
-                                            <div class="item">
+                                            <div class="item" data-idpaciente="${element.IDPaciente}">
                                                 <span class="titulo-item">${element.Nombre}</span>
                                                 <img src= "img/profileICON.jpg" alt="" class="img-item">
-                                                <a href="#infoPatient" class="enlace">View Info</a>
+                                                <a class="enlace" onclick="seguimientoLoad(${element.IDPaciente})">View Info</a>
                                                 <button class="boton-item" onclick="loadFormPage()">Update Clinical Record</button>
                                             </div>
                                         `;
@@ -817,7 +817,8 @@
               </div>
 
               <!---Fórmulario para actualizar el historial clinico del paciente-->
-              <form class="crecord-form">
+              <form class="crecord-form" id = 'rec-form'>
+                <button onclick="returnPatients()">Regresar</button>
                 <fieldset>
                   <legend>Recetas</legend>
                   <label for="medicamento">Nombre de medicina:</label>
@@ -938,70 +939,75 @@
       </div>
 
       <!--Informacion-->
-
+      <div id = "infoPatient">
+        <script>
+ 
+        </script>
+      </div>
       <!--Perfil-->
-      <div id="profile" class="content">
-        <div class="main">
-          <div class="row">
-            <div class="col-sm-12 text-left">
-              <h1>
-                <ion-icon name="person-circle-outline"></ion-icon>Mi perfil
-              </h1>
-              <div class="profile-info">
-                <div class="profile-image-container">
-                  <img
-                    class="profile-image"
-                    src="https://media.licdn.com/dms/image/C4E03AQHN8xgseevCiA/profile-displayphoto-shrink_800_800/0/1516517482014?e=2147483647&v=beta&t=j98hf-SQssBnepwI5c5S7tFsnoleqeiJuycdDPcVGrc"
-                    alt="Doctor Profile"
-                  />
-                </div>
-                <div class="profile-details" id="profileInfo">
-                  <script>
-                    async function loadJSON(url) {
-                      return fetch(url)
-                        .then((response) => {
-                          if (!response.ok) {
-                            throw new Error(`Error de red: ${response.status}`);
-                          }
-                          return response.json();
-                        })
-                        .catch((error) => {
-                          console.error(
-                            `Error al cargar JSON desde ${url}:`,
-                            error
-                          );
-                          throw error; // Relanzar el error para manejo posterior si es necesario
-                        });
-                    }
-
-                    const loadProfile = async () => {
-                      const urlPacientes = "/api/doctor/patients/:id";
-                      const idDoctor = 1;
-                      const newVerURL = urlPacientes.replace(":id", idDoctor);
-                      const respuesta = await loadJSON(newVerURL);
-                      const JSONPacientes = respuesta.data;
-
-                      const area = document.getElementById("profileInfo");
-                      const URL = "/api/doctor/profile/:id";
-                      const idDoc = 1;
-                      const newURL = URL.replace(":id", idDoc);
-                      const resp = await loadJSON(newURL);
-                      const jsonDoc = resp.data;
-                      const div = document.createElement("div");
-                      div.innerHTML = `
-                                    <p><strong>Nombre:</strong> ${jsonDoc[0].Nombre} ${jsonDoc[0].Apellido}</p>
-                                    <p><strong>Fecha de Nacimiento:</strong> ${jsonDoc[0].FechaNacimiento}</p>
-                                    <p><strong>Doctorado:</strong> Especialidad en ${jsonDoc[0].Especialidad}</p>
-                                    <p><strong>Número de pacientes tratados:</strong> ${JSONPacientes.length}</p>
-                                    <p><strong>Cedula profesional:</strong> ${jsonDoc[0].CedulaProfesional}</p>
-                                    `;
-                      area.appendChild(div);
-                    };
-                    loadProfile();
-                  </script>
-                </div>
-              </div>
-              <button onclick="editProfile()">Editar Perfil</button>
+          <!--Perfil-->
+          <div id="profile" class="content">
+            <div class="main">
+              <div class="row">
+                <div class="col-sm-12 text-left">
+                  <h1>
+                    <ion-icon name="person-circle-outline"></ion-icon>Mi perfil
+                  </h1>
+                  <div class="profile-info">
+                    <div class="profile-image-container">
+                      <img
+                        class="profile-image"
+                        src="https://media.licdn.com/dms/image/C4E03AQHN8xgseevCiA/profile-displayphoto-shrink_800_800/0/1516517482014?e=2147483647&v=beta&t=j98hf-SQssBnepwI5c5S7tFsnoleqeiJuycdDPcVGrc"
+                        alt="Doctor Profile"
+                      />
+                    </div>
+                    <div class="profile-details" id="profileInfo">
+                      <script>
+                        async function loadJSON(url) {
+                          return fetch(url)
+                            .then((response) => {
+                              if (!response.ok) {
+                                throw new Error(`Error de red: ${response.status}`);
+                              }
+                              return response.json();
+                            })
+                            .catch((error) => {
+                              console.error(
+                                `Error al cargar JSON desde ${url}:`,
+                                error
+                              );
+                              throw error; // Relanzar el error para manejo posterior si es necesario
+                            });
+                        }
+    
+                        const loadProfile = async () => {
+                          const urlPacientes = "/api/doctor/patients/:id";
+                          const idDoctor = 1;
+                          const newVerURL = urlPacientes.replace(":id", idDoctor);
+                          const respuesta = await loadJSON(newVerURL);
+                          const JSONPacientes = respuesta.data;
+    
+                          const area = document.getElementById("profileInfo");
+                          const URL = "/api/doctor/profile/:id";
+                          const idDoc = 1;
+                          const newURL = URL.replace(":id", idDoc);
+                          const resp = await loadJSON(newURL);
+                          const jsonDoc = resp.data;
+                          const div = document.createElement("div");
+                          div.innerHTML = `
+                                        <p><strong>Nombre:</strong> ${jsonDoc[0].Nombre} ${jsonDoc[0].Apellido}</p>
+                                        <p><strong>Fecha de Nacimiento:</strong> ${jsonDoc[0].FechaNacimiento}</p>
+                                        <p><strong>Doctorado:</strong> Especialidad en ${jsonDoc[0].Especialidad}</p>
+                                        <p><strong>Número de pacientes tratados:</strong> ${JSONPacientes.length}</p>
+                                        <p><strong>Cedula profesional:</strong> ${jsonDoc[0].CedulaProfesional}</p>
+                                        `;
+                          area.appendChild(div);
+                        };
+                        loadProfile();
+                      </script>
+                    </div>
+                  </div>
+                  <button onclick="editProfile()">Editar Perfil</button>
 
               <!-- Formulario de edición de perfil -->
               <form class="profile-form">
@@ -1117,8 +1123,196 @@
 
     <!-- Seccion de funciones de JS -->
     <script>
+               function loadJSON(url) {
+            return fetch(url)
+              .then(response => {
+                if (!response.ok) {
+                  throw new Error(`Error de red: ${response.status}`);
+                }
+                return response.json();
+              })
+              .catch(error => {
+                console.error(`Error al cargar JSON desde ${url}:`, error);
+                throw error; // Relanzar el error para manejo posterior si es necesario
+              });
+          }
+          const seguimientoLoad = async(idPaciente) =>{
+            const updateseguimientoURL = `/api/paciente/Seguimiento${idPaciente}`;
+            const response = await loadJSON(updateseguimientoURL);
+            const jsonSeguimiento = response.data;
+
+            const areaVerPacientes = document.getElementById('contenedor-items-i'); 
+            const areaInfoPaciente = document.getElementById('infoPatient');
+            const rec = arearec = document.getElementById('rec-form');
+            
+            // Ocultar VerPacientes y mostrar infoPatient
+            areaVerPacientes.style.display = 'none';
+            areaInfoPaciente.style.display = 'block';
+            rec.style.display = 'none';
+            areaInfoPaciente.innerHTML = ''; // Limpiar contenido anterior
+
+            // Construir el contenido para el paciente específico
+            const div = document.createElement('div');
+     // Botón de regreso
+            const botonRegresar = document.createElement('button');
+            botonRegresar.innerText = 'Regresar';
+            botonRegresar.style.padding = '10px'; 
+            botonRegresar.style.backgroundColor = 'blue'; 
+            botonRegresar.style.borderRadius = '10px';
+            botonRegresar.onclick = () => {
+              areaInfoPaciente.style.display = 'none'; // Ocultar información del paciente
+              areaVerPacientes.style.display = 'block'; // Mostrar lista de pacientes
+              rec.style.display = 'block';
+            };
+
+  areaInfoPaciente.appendChild(botonRegresar);
+          div.innerHTML = `
+          <h4> ¡Hola de nuevo, ${jsonSeguimiento[0].NombrePaciente}!</h4>
+          <div class = 'row'>
+            <div class="col-lg-4">
+              <div id="patientInfo" class="info-container">
+              <ion-icon name="medkit" class="icono-grande"></ion-icon>
+                
+                <div class="texto-info">
+                  <p>Doctor:</p>
+                  <h6>${jsonSeguimiento[0].NombreDoctor}</h6>
+                </div>
+              </div>
+          </div>
+          
+          <div class="col-lg-4">
+            <div id="patientInfo" class="info-container">
+              
+              <ion-icon name="people" class="icono-grande"></ion-icon>
+              <div class="texto-info">
+                <p>Persona de Apoyo:</p>
+                <h6>${jsonSeguimiento[0].NombrePersonaApoyo}</h6>  
+              </div>
+            </div>
+          </div>
+
+          
+          <div class="col-lg-4">
+            <div id="patientInfo" class="info-container">
+            <ion-icon name="medical" class="icono-grande"></ion-icon>
+              <div class="texto-info">
+                <p>Aseguradora:</p>
+                <h6>${jsonSeguimiento[0].NombreAseguradora}</h6> 
+              </div>
+            </div>
+          </div>
+
+          </div>
+            <br>
+            <h2>Mis citas</h2>
+            <div id = 'CitasArea'></div>
+            <br>
+            <h2>Mis medicamentos</h2>
+            <div id='MedicamentosArea'></div>
+            <br>
+          `
+          areaInfoPaciente.appendChild(div);
+          const medicinasArea = document.getElementById('MedicamentosArea'); 
+          const citasArea = document.getElementById('CitasArea');
+          // Crear contenedor para la línea de tiempo
+          // Crear contenedor para la línea de tiempo
+          // Crear contenedor para la línea de tiempo
+          const lineaTiempoContainer = document.createElement('div');
+          lineaTiempoContainer.className = 'linea-tiempo-container';
+        
+          const fechasUnicas = new Set();
+          jsonSeguimiento.forEach(el => {
+            // Formatea la fecha para mostrar solo aaaa-mm-dd
+            const fechaFormateada = el.FechaCita.split('T')[0];
+        
+            if (!fechasUnicas.has(fechaFormateada)) {
+              fechasUnicas.add(fechaFormateada);
+        
+              const puntoLineaTiempo = document.createElement('div');
+              puntoLineaTiempo.className = 'punto-linea-tiempo';
+        
+              const labelFecha = document.createElement('div');
+              labelFecha.className = 'label-fecha';
+              labelFecha.innerText = fechaFormateada;
+              puntoLineaTiempo.appendChild(labelFecha);
+              lineaTiempoContainer.appendChild(puntoLineaTiempo);
+            }
+          });
+          
+          
+          const titLinea = document.createElement('h3');
+          titLinea.innerText = "Linea del tiempo citas: "
+          citasArea.appendChild(titLinea);
+          citasArea.appendChild(lineaTiempoContainer);
+
+          
+
+          const tablaCitas = document.createElement('table');
+          const citasUnicas = new Set();
+          tablaCitas.className = 'tabla-citas'; // Añade una clase para estilos CSS si es necesario
+
+          // Añadir cabecera de la tabla
+          const cabeceraTabla = document.createElement('thead');
+          cabeceraTabla.innerHTML = `
+            <tr>
+              <th>Fecha de la Cita</th>
+              <th>Tipo de Cita</th>
+              <th>Estatus de la Cita</th>
+            </tr>`;
+          tablaCitas.appendChild(cabeceraTabla);
+
+          // Añadir cuerpo de la tabla
+          const cuerpoTabla = document.createElement('tbody');
+          jsonSeguimiento.forEach(el => {
+            // Formatea la fecha para mostrar solo aaaa-mm-dd
+            const fechaFormateada = el.FechaCita.split('T')[0];
+          
+            const citaKey = `${fechaFormateada}-${el.TipoCita}-${el.EstatusCita}`;
+          
+            if (!citasUnicas.has(citaKey)) {
+              citasUnicas.add(citaKey);
+          
+              const filaTabla = document.createElement('tr');
+              filaTabla.innerHTML = `
+                <td>${fechaFormateada}</td>
+                <td>${el.TipoCita}</td>
+                <td>${el.EstatusCita}</td>
+              `;
+              cuerpoTabla.appendChild(filaTabla);
+            }
+          });
+          tablaCitas.appendChild(cuerpoTabla);
+          const titTabla = document.createElement('h3');
+          titTabla.innerText = "Tabla de citas: "
+          citasArea.appendChild(titTabla);
+          citasArea.appendChild(tablaCitas);
+          console.log(jsonSeguimiento);
+
+        const medicinasUnicas = new Set();
+        jsonSeguimiento.forEach(el => {
+          if (!medicinasUnicas.has(el.NombreMedicina)) {
+            medicinasUnicas.add(el.NombreMedicina);
+
+            const tarjetaMedicina = document.createElement('div');
+            tarjetaMedicina.className = 'tarjeta-medicina';
+
+            const nombreMedicina = document.createElement('h5');
+            nombreMedicina.innerText = `Nombre: ${el.NombreMedicina}`;
+            
+            const descripcionMedicina = document.createElement('p');
+            descripcionMedicina.innerText = `Descripción: ${el.Descripción}`;
+
+            tarjetaMedicina.appendChild(nombreMedicina);
+            tarjetaMedicina.appendChild(descripcionMedicina);
+
+            medicinasArea.appendChild(tarjetaMedicina);
+          }
+        });
+      }
+      
       // Script para manejar el cambio de hash y mostrar/ocultar el contenido correspondiente
       document.addEventListener("DOMContentLoaded", function () {
+        
         // Manejar el cambio de hash
         window.addEventListener("hashchange", function () {
           // Ocultar todos los contenidos
@@ -1162,7 +1356,14 @@
       function loadFormPage() {
         // Cancela la edición, vuelve a mostrar la información y oculta el formulario
         document.querySelector(".patientList").style.display = "none";
-        document.querySelector("crecord-form").style.display = "flex";
+        const rec = arearec = document.getElementById('rec-form');
+        rec.style.display = 'block';
+      }
+
+      function returnPatients(){
+        document.querySelector(".patientList").style.display = "block";
+        const rec = arearec = document.getElementById('rec-form');
+        rec.style.display = 'none';
       }
 
       function previewImage() {
@@ -1174,9 +1375,9 @@
         reader.onload = function (e) {
           preview.src = e.target.result;
         };
-
-        reader.readAsDataURL(input.files[0]);
       }
+  
+    
     </script>
   </body>
 </html>

@@ -238,7 +238,7 @@ app.get('/api/doctor/profile/:id', (req, res) =>{
 app.get('/api/doctor/patients/:id', (req, res) =>{
   const idDoctor = req.params.id;
   console.log(idDoctor);
-  const query = 'SELECT pacientes.Nombre FROM pacientes, doctores, asignaciones WHERE pacientes.IDPaciente = asignaciones.IDPaciente AND asignaciones.IDDoctor = doctores.IDDoctor AND doctores.IDDoctor = ?';
+  const query = 'SELECT pacientes.IDPaciente, pacientes.Nombre FROM pacientes, doctores, asignaciones WHERE pacientes.IDPaciente = asignaciones.IDPaciente AND asignaciones.IDDoctor = doctores.IDDoctor AND doctores.IDDoctor = ?';
   pool.query(query, [idDoctor], (error, results, fields) => {
     if (error) {
       return res.status(500).json({ error: 'Database query error' });
