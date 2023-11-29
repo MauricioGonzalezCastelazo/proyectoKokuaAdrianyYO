@@ -29,66 +29,66 @@ function loadJSON(url) {
     });
 }
 
-const notifications = 
-[
-    {
-        id: 1, 
-        notification: "Hola", 
-        description: "Alguien te ha dicho hola", 
-        time: "1hr ago"
-    }, 
-    {
-        id: 2, 
-        notification: "Hola", 
-        description: "Alguien te ha dicho hola", 
-        time: "1hr ago"
-    },
-    {
-        id: 3, 
-        notification: "Hola", 
-        description: "Alguien te ha dicho hola", 
-        time: "1hr ago"
-    },
-    {
-        id: 4, 
-        notification: "Hola", 
-        description: "Alguien te ha dicho hola", 
-        time: "1hr ago"
-    }
-]
-
-  const mensajes = 
+const notifications =
   [
-      {
-          id: 1, 
-          id_recpetor : 1,
-          id_emisor : 1, 
-          mensaje: 
-            [
-              { "tipo": "emisor", "mensaje": "Hola" },
-              { "tipo": "emisor", "mensaje": "Como has estado?" },
-              { "tipo": "emisor", "mensaje": "amigo" },
-              { "tipo": "receptor", "mensaje": "bien" },
-              { "tipo": "receptor", "mensaje": "gracias por preguntar" },
-              { "tipo": "emisor", "mensaje": "Hola" },
-              { "tipo": "emisor", "mensaje": "Como has estado?" },
-              { "tipo": "emisor", "mensaje": "amigo" },
-              { "tipo": "receptor", "mensaje": "bien" },
-              { "tipo": "receptor", "mensaje": "gracias por preguntar" }
-            ]
-      },
-            
-      {
-          id: 2, 
-          id_recpetor : 2, 
-          id_emisor : 1, 
-          mensaje: [
-            { "tipo": "emisor", "mensaje": "Hola" },
-            { "tipo": "emisor", "mensaje": "Como has estado Ferro?" },
-            { "tipo": "receptor", "mensaje": "bien" },
-            { "tipo": "receptor", "mensaje": "gracias por preguntar" }
-          ]
-      }
+    {
+      id: 1,
+      notification: "Hola",
+      description: "Alguien te ha dicho hola",
+      time: "1hr ago"
+    },
+    {
+      id: 2,
+      notification: "Hola",
+      description: "Alguien te ha dicho hola",
+      time: "1hr ago"
+    },
+    {
+      id: 3,
+      notification: "Hola",
+      description: "Alguien te ha dicho hola",
+      time: "1hr ago"
+    },
+    {
+      id: 4,
+      notification: "Hola",
+      description: "Alguien te ha dicho hola",
+      time: "1hr ago"
+    }
+  ]
+
+const mensajes =
+  [
+    {
+      id: 1,
+      id_recpetor: 1,
+      id_emisor: 1,
+      mensaje:
+        [
+          { "tipo": "emisor", "mensaje": "Hola" },
+          { "tipo": "emisor", "mensaje": "Como has estado?" },
+          { "tipo": "emisor", "mensaje": "amigo" },
+          { "tipo": "receptor", "mensaje": "bien" },
+          { "tipo": "receptor", "mensaje": "gracias por preguntar" },
+          { "tipo": "emisor", "mensaje": "Hola" },
+          { "tipo": "emisor", "mensaje": "Como has estado?" },
+          { "tipo": "emisor", "mensaje": "amigo" },
+          { "tipo": "receptor", "mensaje": "bien" },
+          { "tipo": "receptor", "mensaje": "gracias por preguntar" }
+        ]
+    },
+
+    {
+      id: 2,
+      id_recpetor: 2,
+      id_emisor: 1,
+      mensaje: [
+        { "tipo": "emisor", "mensaje": "Hola" },
+        { "tipo": "emisor", "mensaje": "Como has estado Ferro?" },
+        { "tipo": "receptor", "mensaje": "bien" },
+        { "tipo": "receptor", "mensaje": "gracias por preguntar" }
+      ]
+    }
   ]
 
 
@@ -97,23 +97,23 @@ const notifications =
 
 
 //-------------------------------User--------------------------------------------------------------------
-const loadChatUser = async () =>{
-  try{
-    const response = await loadJSON(updateduserURL); 
+const loadChatUser = async () => {
+  try {
+    const response = await loadJSON(updateduserURL);
     const jsonUser = response.data;
     console.log("Aqui va el usuario");
     const user = document.getElementsByClassName('usuario');
-    jsonUser.forEach(element =>{
-        const nombreUsuario = document.createElement("p"); 
-        const divImg = document.createElement('div');
-        divImg.className = 'imgHelp';
-        divImg.innerHTML = '<ion-icon name="person-outline" class = "iconoGrandeNegrita"></ion-icon>'
-        nombreUsuario.innerText = element.Nombre; 
-        user[0].appendChild(divImg); 
-        user[0].appendChild(nombreUsuario); 
+    jsonUser.forEach(element => {
+      const nombreUsuario = document.createElement("p");
+      const divImg = document.createElement('div');
+      divImg.className = 'imgHelp';
+      divImg.innerHTML = '<ion-icon name="person-outline" class = "iconoGrandeNegrita"></ion-icon>'
+      nombreUsuario.innerText = element.Nombre;
+      user[0].appendChild(divImg);
+      user[0].appendChild(nombreUsuario);
     });
-    }catch(error){
-      console.log(error);
+  } catch (error) {
+    console.log(error);
   }
 }
 
@@ -123,7 +123,7 @@ const loadChatContacts = async () => {
     await loadChatUser();
     const card = document.getElementsByClassName('contact')[0];
     const response = await loadJSON(updatedContactsURL);
-    const jsonContacts = response.data; 
+    const jsonContacts = response.data;
     console.log(jsonContacts);
 
     // Decide si mostrar nombre de doctor o de persona de apoyo
@@ -131,31 +131,31 @@ const loadChatContacts = async () => {
     let nombreCompletoApoyo = nombreCompleto = `${jsonContacts[0].PersonaApoyoNombre} ${jsonContacts[0].PersonaApoyoApellido}`;
     let ultimoMensajeTexto1 = "No hay mensajes";
     const conversaciones1 = mensajes.filter(m => m.id_recpetor === jsonContacts[0].IDDoctor);
-    
+
     if (conversaciones1.length > 0) {
       const ultimoMensaje = conversaciones1.map(c => c.mensaje[c.mensaje.length - 1])
-                                          .reduce((a, b) => (a.fecha > b.fecha ? a : b));
+        .reduce((a, b) => (a.fecha > b.fecha ? a : b));
       ultimoMensajeTexto1 = ultimoMensaje.mensaje;
     }
 
     let ultimoMensajeTexto2 = "No hay mensajes";
     const conversaciones2 = mensajes.filter(m => m.id_recpetor === jsonContacts[0].IDPersonaApoyo);
-    
+
     if (conversaciones2.length > 0) {
       const ultimoMensaje = conversaciones1.map(c => c.mensaje[c.mensaje.length - 1])
-                                          .reduce((a, b) => (a.fecha > b.fecha ? a : b));
+        .reduce((a, b) => (a.fecha > b.fecha ? a : b));
       ultimoMensajeTexto2 = ultimoMensaje.mensaje;
     }
 
-    let hora = new Date().toLocaleTimeString(); 
+    let hora = new Date().toLocaleTimeString();
     const div1 = document.createElement("button");
-    const div2 = document.createElement("button");  
-    const divNombre1 = document.createElement("div"); 
-    const divNombre2 = document.createElement("div"); 
-    const nombreDoctor = document.createElement("h6"); 
-    const nombrePersonaApoyo = document.createElement("h6"); 
-    const fecha1 = document.createElement("p"); 
-    const fecha2 = document.createElement("p"); 
+    const div2 = document.createElement("button");
+    const divNombre1 = document.createElement("div");
+    const divNombre2 = document.createElement("div");
+    const nombreDoctor = document.createElement("h6");
+    const nombrePersonaApoyo = document.createElement("h6");
+    const fecha1 = document.createElement("p");
+    const fecha2 = document.createElement("p");
     const mensaje1 = document.createElement("p"); 2
     const mensaje2 = document.createElement("p");
     const salto1 = document.createElement("br");
@@ -175,22 +175,22 @@ const loadChatContacts = async () => {
     div2.className = 'contactArea';
     nombreDoctor.className = 'nombreContacto';
     nombrePersonaApoyo.className = 'nombreContacto';
-    fecha1.className = 'fechaContacto'; 
-    fecha2.className = 'fechaContacto'; 
+    fecha1.className = 'fechaContacto';
+    fecha2.className = 'fechaContacto';
     div1.setAttribute('data-id', jsonContacts[0].IDDoctor);
     div1.setAttribute('data-type', 'doctor');
     div2.setAttribute('data-id', jsonContacts[0].IDPersonaApoyo);
     div2.setAttribute('data-type', 'apoyo');
 
-    divNombre1.appendChild(nombreDoctor); 
-    divNombre1.appendChild(mensaje1); 
-    div1.appendChild(divNombre1); 
+    divNombre1.appendChild(nombreDoctor);
+    divNombre1.appendChild(mensaje1);
+    div1.appendChild(divNombre1);
     div1.appendChild(fecha1);
     card.appendChild(div1);
 
-    divNombre2.appendChild(nombrePersonaApoyo); 
-    divNombre2.appendChild(mensaje2); 
-    div2.appendChild(divNombre2); 
+    divNombre2.appendChild(nombrePersonaApoyo);
+    divNombre2.appendChild(mensaje2);
+    div2.appendChild(divNombre2);
     div2.appendChild(fecha2);
     card.appendChild(div2);
   } catch (error) {
@@ -200,7 +200,7 @@ const loadChatContacts = async () => {
 
 
 //--------------------load messages---------------------------------------------------------------------
-const loadMessages = async(mensajes) => {
+const loadMessages = async (mensajes) => {
   try {
     await loadChatContacts();
     const areaChat = document.getElementsByClassName("chats")[0];
@@ -208,7 +208,7 @@ const loadMessages = async(mensajes) => {
     let contactos = document.querySelectorAll('.contactArea');
 
     contactos.forEach(contacto => {
-      contacto.addEventListener('click', function(event) {
+      contacto.addEventListener('click', function (event) {
         areaChat.innerHTML = '';
         areaNombreChat.innerHTML = '';
 
@@ -246,8 +246,8 @@ const loadMessages = async(mensajes) => {
 
 
 
-const searchBar = async () =>{
-  try{
+const searchBar = async () => {
+  try {
     const searchBar = document.querySelector('.searchBar');
     searchBar.addEventListener('input', (e) => {
       const searchText = e.target.value.toLowerCase();
@@ -262,7 +262,7 @@ const searchBar = async () =>{
         }
       });
     });
-  }catch(error){
+  } catch (error) {
     console.log(error);
   }
 }
@@ -270,75 +270,74 @@ const searchBar = async () =>{
 
 
 //--------------------------notifications---------------------------------------------------------
-const loadNotifications = async (notifications) =>{
-  try{
+const loadNotifications = async (notifications) => {
+  try {
     const notificationArea = document.getElementById('notifications');
 
-      await notifications.forEach(el => {
-        const line = document.createElement('hr');
-        line.className = 'lineaNot';
-        const divTituloMensaje = document.createElement('div');
-        divTituloMensaje.className = 'notificacionTituloDescripcion';
-        const divHora = document.createElement('div');
-        divHora.className = 'divHoraNotificacion';
-        const divNotification = document.createElement('div');
-        divNotification.className = 'divNotificacion';
-        divNotification.setAttribute('data-id', el.id); // Asignar el ID de la notificación
-        const point = document.createElement('div');
-        point.className = 'ponitNotificacion';
-    
-        const notification = document.createElement('p');
-        notification.innerText = el.notification;
-        notification.className = 'titleNotification';
-        const time = document.createElement('p');
-        time.innerText = el.time;
-        time.className = 'timeNotification';
-        const description = document.createElement('p');
-        description.innerText = el.description;
-        description.className = 'descriptionNotification';
-    
-        const botonBorrar = document.createElement('button');
-        botonBorrar.innerHTML = '<ion-icon name="trash-outline"></ion-icon>';
-        botonBorrar.className = 'borrar';
-    
-        divTituloMensaje.appendChild(point);
-        divTituloMensaje.appendChild(notification);
-        divTituloMensaje.appendChild(description);
-        divHora.appendChild(time);
-        divNotification.appendChild(divTituloMensaje);
-        divNotification.appendChild(divHora);
-        divNotification.appendChild(botonBorrar);  // Agrega el botón Borrar a la notificación
-        notificationArea.appendChild(line);
-        notificationArea.appendChild(divNotification);
-        notificationArea.appendChild(line);
-    
-      
-        botonBorrar.addEventListener('click', function(event) {
-          const notificationId = divNotification.getAttribute('data-id');
-          console.log(notificationId);
-          divNotification.classList.add('desvanecer');
-          divNotification.addEventListener('animationend', function() {
-            divNotification.remove();
-          });
+    await notifications.forEach(el => {
+      const line = document.createElement('hr');
+      line.className = 'lineaNot';
+      const divTituloMensaje = document.createElement('div');
+      divTituloMensaje.className = 'notificacionTituloDescripcion';
+      const divHora = document.createElement('div');
+      divHora.className = 'divHoraNotificacion';
+      const divNotification = document.createElement('div');
+      divNotification.className = 'divNotificacion';
+      divNotification.setAttribute('data-id', el.id); // Asignar el ID de la notificación
+      const point = document.createElement('div');
+      point.className = 'ponitNotificacion';
+
+      const notification = document.createElement('p');
+      notification.innerText = el.notification;
+      notification.className = 'titleNotification';
+      const time = document.createElement('p');
+      time.innerText = el.time;
+      time.className = 'timeNotification';
+      const description = document.createElement('p');
+      description.innerText = el.description;
+      description.className = 'descriptionNotification';
+
+      const botonBorrar = document.createElement('button');
+      botonBorrar.innerHTML = '<ion-icon name="trash-outline"></ion-icon>';
+      botonBorrar.className = 'borrar';
+
+      divTituloMensaje.appendChild(point);
+      divTituloMensaje.appendChild(notification);
+      divTituloMensaje.appendChild(description);
+      divHora.appendChild(time);
+      divNotification.appendChild(divTituloMensaje);
+      divNotification.appendChild(divHora);
+      divNotification.appendChild(botonBorrar);  // Agrega el botón Borrar a la notificación
+      notificationArea.appendChild(line);
+      notificationArea.appendChild(divNotification);
+      notificationArea.appendChild(line);
+
+
+      botonBorrar.addEventListener('click', function (event) {
+        const notificationId = divNotification.getAttribute('data-id');
+        console.log(notificationId);
+        divNotification.classList.add('desvanecer');
+        divNotification.addEventListener('animationend', function () {
+          divNotification.remove();
         });
+      });
     });
-    
-  }catch(error)
-  {
+
+  } catch (error) {
     console.log(error);
   }
 
 }
 
 //-----------------------------------------------Servicios Extra----------------------------------------------
-const serviciosExtraLoad = async()=>{
+const serviciosExtraLoad = async () => {
   const response = await loadJSON(serviciosURL);
-  const jsonServicios = response.data; 
+  const jsonServicios = response.data;
   console.log(jsonServicios)
   const area = document.getElementById('serviciosExtra');
   console.log(area)
-  let cont = 0; 
-  jsonServicios.map(element =>{
+  let cont = 0;
+  jsonServicios.map(element => {
     const div = document.createElement('div');
     div.innerHTML = `<div class="col-lg-3 mb-4">
       <div class="card">
@@ -355,16 +354,16 @@ const serviciosExtraLoad = async()=>{
     </div>`
     area.appendChild(div);
     cont++;
-  }); 
+  });
 }
 
 //---------------------------------------Seguimiento------------------------------------------------------------------------
-const seguimientoLoad = async() =>{
-    const response = await loadJSON(updateseguimientoURL);
-    const jsonSeguimiento = response.data; 
-    const area = document.getElementById('DashBoard');
-    const div = document.createElement('div');
-    div.innerHTML = `
+const seguimientoLoad = async () => {
+  const response = await loadJSON(updateseguimientoURL);
+  const jsonSeguimiento = response.data;
+  const area = document.getElementById('DashBoard');
+  const div = document.createElement('div');
+  div.innerHTML = `
     <h4> ¡Hola de nuevo, ${jsonSeguimiento[0].NombrePaciente}!</h4>
     <div class = 'row'>
       <div class="col-lg-4">
@@ -409,82 +408,82 @@ const seguimientoLoad = async() =>{
       <div id='MedicamentosArea'></div>
       <br>
     `
-    area.appendChild(div);
-    const medicinasArea = document.getElementById('MedicamentosArea'); 
-    const citasArea = document.getElementById('CitasArea');
-    // Crear contenedor para la línea de tiempo
-    // Crear contenedor para la línea de tiempo
-    // Crear contenedor para la línea de tiempo
-    const lineaTiempoContainer = document.createElement('div');
-    lineaTiempoContainer.className = 'linea-tiempo-container';
-  
-    const fechasUnicas = new Set();
-    jsonSeguimiento.forEach(el => {
-      // Formatea la fecha para mostrar solo aaaa-mm-dd
-      const fechaFormateada = el.FechaCita.split('T')[0];
-  
-      if (!fechasUnicas.has(fechaFormateada)) {
-        fechasUnicas.add(fechaFormateada);
-  
-        const puntoLineaTiempo = document.createElement('div');
-        puntoLineaTiempo.className = 'punto-linea-tiempo';
-  
-        const labelFecha = document.createElement('div');
-        labelFecha.className = 'label-fecha';
-        labelFecha.innerText = fechaFormateada;
-        puntoLineaTiempo.appendChild(labelFecha);
-        lineaTiempoContainer.appendChild(puntoLineaTiempo);
-      }
-    });
-    
-    
-    const titLinea = document.createElement('h3');
-    titLinea.innerText = "Linea del tiempo citas: "
-     citasArea.appendChild(titLinea);
-    citasArea.appendChild(lineaTiempoContainer);
+  area.appendChild(div);
+  const medicinasArea = document.getElementById('MedicamentosArea');
+  const citasArea = document.getElementById('CitasArea');
+  // Crear contenedor para la línea de tiempo
+  // Crear contenedor para la línea de tiempo
+  // Crear contenedor para la línea de tiempo
+  const lineaTiempoContainer = document.createElement('div');
+  lineaTiempoContainer.className = 'linea-tiempo-container';
 
-    
+  const fechasUnicas = new Set();
+  jsonSeguimiento.forEach(el => {
+    // Formatea la fecha para mostrar solo aaaa-mm-dd
+    const fechaFormateada = el.FechaCita.split('T')[0];
 
-    const tablaCitas = document.createElement('table');
-    const citasUnicas = new Set();
-    tablaCitas.className = 'tabla-citas'; // Añade una clase para estilos CSS si es necesario
+    if (!fechasUnicas.has(fechaFormateada)) {
+      fechasUnicas.add(fechaFormateada);
 
-    // Añadir cabecera de la tabla
-    const cabeceraTabla = document.createElement('thead');
-    cabeceraTabla.innerHTML = `
+      const puntoLineaTiempo = document.createElement('div');
+      puntoLineaTiempo.className = 'punto-linea-tiempo';
+
+      const labelFecha = document.createElement('div');
+      labelFecha.className = 'label-fecha';
+      labelFecha.innerText = fechaFormateada;
+      puntoLineaTiempo.appendChild(labelFecha);
+      lineaTiempoContainer.appendChild(puntoLineaTiempo);
+    }
+  });
+
+
+  const titLinea = document.createElement('h3');
+  titLinea.innerText = "Linea del tiempo citas: "
+  citasArea.appendChild(titLinea);
+  citasArea.appendChild(lineaTiempoContainer);
+
+
+
+  const tablaCitas = document.createElement('table');
+  const citasUnicas = new Set();
+  tablaCitas.className = 'tabla-citas'; // Añade una clase para estilos CSS si es necesario
+
+  // Añadir cabecera de la tabla
+  const cabeceraTabla = document.createElement('thead');
+  cabeceraTabla.innerHTML = `
       <tr>
         <th>Fecha de la Cita</th>
         <th>Tipo de Cita</th>
         <th>Estatus de la Cita</th>
       </tr>`;
-    tablaCitas.appendChild(cabeceraTabla);
+  tablaCitas.appendChild(cabeceraTabla);
 
-    // Añadir cuerpo de la tabla
-    const cuerpoTabla = document.createElement('tbody');
-    jsonSeguimiento.forEach(el => {
-      // Formatea la fecha para mostrar solo aaaa-mm-dd
-      const fechaFormateada = el.FechaCita.split('T')[0];
-    
-      const citaKey = `${fechaFormateada}-${el.TipoCita}-${el.EstatusCita}`;
-    
-      if (!citasUnicas.has(citaKey)) {
-        citasUnicas.add(citaKey);
-    
-        const filaTabla = document.createElement('tr');
-        filaTabla.innerHTML = `
+  // Añadir cuerpo de la tabla
+  const cuerpoTabla = document.createElement('tbody');
+  jsonSeguimiento.forEach(el => {
+    // Formatea la fecha para mostrar solo aaaa-mm-dd
+    const fechaFormateada = el.FechaCita.split('T')[0];
+
+    const citaKey = `${fechaFormateada}-${el.TipoCita}-${el.EstatusCita}`;
+
+    if (!citasUnicas.has(citaKey)) {
+      citasUnicas.add(citaKey);
+
+      const filaTabla = document.createElement('tr');
+      filaTabla.innerHTML = `
           <td>${fechaFormateada}</td>
           <td>${el.TipoCita}</td>
           <td>${el.EstatusCita}</td>
         `;
-        cuerpoTabla.appendChild(filaTabla);
-      }
-    });
-    tablaCitas.appendChild(cuerpoTabla);
-     const titTabla = document.createElement('h3');
-     titTabla.innerText = "Tabla de citas: "
-     citasArea.appendChild(titTabla);
-    citasArea.appendChild(tablaCitas);
-    console.log(jsonSeguimiento);
+      cuerpoTabla.appendChild(filaTabla);
+    }
+  });
+  tablaCitas.appendChild(cuerpoTabla);
+  const titTabla = document.createElement('h3');
+  titTabla.innerText = "Tabla de citas: "
+  citasArea.appendChild(titTabla);
+  citasArea.appendChild(tablaCitas);
+  console.log(jsonSeguimiento);
 
   const medicinasUnicas = new Set();
   jsonSeguimiento.forEach(el => {
@@ -496,9 +495,9 @@ const seguimientoLoad = async() =>{
 
       const nombreMedicina = document.createElement('h5');
       nombreMedicina.innerText = `Nombre: ${el.NombreMedicina}`;
-      
+
       const descripcionMedicina = document.createElement('p');
-      descripcionMedicina.innerText = `Descripción: ${el.Descripción}`;
+      descripcionMedicina.innerText = `Descripción: ${el.Indicaciones}`;
 
       tarjetaMedicina.appendChild(nombreMedicina);
       tarjetaMedicina.appendChild(descripcionMedicina);
@@ -510,7 +509,7 @@ const seguimientoLoad = async() =>{
 
 }
 //-------------------------------DOM---------------------------------------------------------------------------
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
   loadMessages(mensajes);
   searchBar();
   loadNotifications(notifications);

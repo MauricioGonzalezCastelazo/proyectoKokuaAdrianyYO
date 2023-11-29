@@ -791,7 +791,7 @@
 
                     const VerPacientes = async () => {
                         const Area = document.getElementById("contenedor-items-i"); // Asegúrate de que este es el ID correcto
-                        Area.style.display = 'block'; // Asegúrate de que este contenedor se muestre inicialmente
+                        Area.style.display = 'flex'; // Asegúrate de que este contenedor se muestre inicialmente
                       const urlPacientes = "/api/doctor/patients/:id";
                       const idDoctor = 1;
                       const newVerURL = urlPacientes.replace(":id", idDoctor);
@@ -800,12 +800,12 @@
                       JSONPacientes.map((element) => {
                         const div = document.createElement("div");
                         div.innerHTML = `
-                                            <div class="item" data-idpaciente="${element.IDPaciente}">
-                                                <span class="titulo-item">${element.Nombre}</span>
-                                                <img src= "img/profileICON.jpg" alt="" class="img-item">
-                                                <a class="enlace" onclick="seguimientoLoad(${element.IDPaciente})">View Info</a>
-                                                <button class="boton-item" onclick="loadFormPage()">Update Clinical Record</button>
-                                            </div>
+                        <div class="item" data-idpaciente="${element.IDPaciente}">
+                          <span class="titulo-item">${element.Nombre}</span>
+                          <img src="img/profileICON.jpg" alt="" class="img-item">
+                          <a class="enlace" onclick="seguimientoLoad(${element.IDPaciente})">View Info</a>
+                          <button class="boton-item" onclick="loadFormPage(${element.IDPaciente})">Update Clinical Record</button>
+                        </div>
                                         `;
                         Area.appendChild(div);
                       });
@@ -818,6 +818,7 @@
 
               <!---Fórmulario para actualizar el historial clinico del paciente-->
               <form class="crecord-form" id = 'rec-form'>
+                <input type="hidden" id="form-paciente-id" name="pacienteId">
                 <button onclick="returnPatients()">Regresar</button>
                 <fieldset>
                   <legend>Recetas</legend>
@@ -840,16 +841,6 @@
                     name="initial-date"
                     required
                   />
-
-                  <label for="medical-prescription">Archivo de la receta</label>
-                  <input
-                    type="file"
-                    id="medical-prescription"
-                    name="medical-prescription"
-                    accept=".pdf,.docx"
-                  />
-
-                  <button type="button">Enviar</button>
                 </fieldset>
 
                 <fieldset>
@@ -874,16 +865,6 @@
                     cols="50"
                     required
                   ></textarea>
-
-                  <label for="medical-report">Medical Report</label>
-                  <input
-                    type="file"
-                    id="medical-report"
-                    name="medical-report"
-                    accept=".pdf,.docx"
-                  />
-
-                  <button type="button">Submmit</button>
                 </fieldset>
 
                 <fieldset>
@@ -913,17 +894,6 @@
                     cols="50"
                     required
                   ></textarea>
-
-                  <label for="medical-study">Medical Study</label>
-                  <input
-                    type="file"
-                    id="medical-study"
-                    name="medical-report"
-                    accept=".pdf,.docx /*,video/*,image/"
-                    required
-                  />
-
-                  <button type="button">Submmit</button>
                 </fieldset>
 
                 <button type="button" onclick="saveProfile()">
@@ -1076,7 +1046,7 @@
                   />
                 </div>
 
-                <button type="button" onclick="saveProfile()">
+                <button type="button" onclick="saveProfile(),returnPatients()">
                   Guardar Cambios
                 </button>
                 <button type="button" class="cancel" onclick="cancelEdit()">
@@ -1161,8 +1131,8 @@
             botonRegresar.style.borderRadius = '10px';
             botonRegresar.onclick = () => {
               areaInfoPaciente.style.display = 'none'; // Ocultar información del paciente
-              areaVerPacientes.style.display = 'block'; // Mostrar lista de pacientes
-              rec.style.display = 'block';
+              areaVerPacientes.style.display = 'flex'; // Mostrar lista de pacientes
+              rec.style.display = 'none';
             };
 
   areaInfoPaciente.appendChild(botonRegresar);
@@ -1299,7 +1269,7 @@
             nombreMedicina.innerText = `Nombre: ${el.NombreMedicina}`;
             
             const descripcionMedicina = document.createElement('p');
-            descripcionMedicina.innerText = `Descripción: ${el.Descripción}`;
+            descripcionMedicina.innerText = `Descripción: ${el.Indicaciones}`;
 
             tarjetaMedicina.appendChild(nombreMedicina);
             tarjetaMedicina.appendChild(descripcionMedicina);
@@ -1338,31 +1308,98 @@
         document.querySelector(".profile-info").style.display = "none";
         document.querySelector(".profile-form").style.display = "block";
       }
+      async function agregarReceta(datosCita) {
+          try {
+            const response = await fetch('/api/doctor/seguimiento/newReceta', {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(datosCita),
+            });
 
-      function saveProfile() {
-        // Lógica para guardar los cambios (puedes enviar los datos a un servidor, almacenarlos en localStorage, etc.)
-        // Aquí simplemente se vuelve a mostrar la información y se oculta el formulario
+            if (!response.ok) {
+              throw new Error(
+                `HTTP error! status: ${response.status}`
+              );
+            }
+
+            const data = await response.json();
+            console.log(
+              "Cita agregada con éxito, ID:",
+              data.insertedId
+            );
+            return data.insertedId; // Devolver el ID de la cita insertada
+          } catch (error) {
+            console.error("Error al agregar la cita:", error);
+          }
+        }
+
+      async function saveProfile() {
+        // Recoger los valores de los campos del formulario
+        const medicamento = document.getElementById('medicamento').value;
+        const dosis = document.getElementById('dosis').value;
+        const initialDate = document.getElementById('initial-date').value;
+        const descripcionDiagnostico = document.getElementById('descripcionDiagnostico').value;
+        const estudiosRequeridos = document.getElementById('estudiosRequeridos').value;
+        const studySelect = document.getElementById('studySelect').value;
+        const anotaciones = document.getElementById('anotaciones').value;
+        const URLMed = `/api/doctor/medicina/${medicamento}`
+        const resp = await loadJSON(URLMed); 
+        const jsonMed = resp.data;
+      // Enviar los datos a donde corresponda (base de datos, servidor, etc.)
         document.querySelector(".profile-info").style.display = "flex";
         document.querySelector(".profile-form").style.display = "none";
+        const idPaciente = document.getElementById('form-paciente-id').value;
+        const url = `/api/paciente/appointments/${idPaciente}`;
+        const response = await loadJSON(url);
+        const citasPersona = response.data; 
+        for (const el of citasPersona) {
+          if (el.EstatusCita === 'Agendada') {
+            const URLMed = `/api/doctor/medicina/${medicamento}`;
+            const resp = await loadJSON(URLMed);
+            const jsonMed = resp.data;
+            console.log(`ID de la medicina ${jsonMed[0].IDMedicina}`);
+
+            const JSON = {
+              IDCita: el.IDCita,
+              IDMedicina: jsonMed[0].IDMedicina,
+              CantidadDiaria: dosis,
+              Indicaciones: anotaciones,
+              Diagnostico: descripcionDiagnostico,
+              NombreMedicina: medicamento
+            };
+            console.log(JSON);
+
+            await agregarReceta(JSON);
+            document.querySelector(".patientList").style.display = "flex";
+            const rec = document.getElementById('rec-form');
+            rec.style.display = 'none';
+
+         }
+       }
       }
 
       function cancelEdit() {
-        // Cancela la edición, vuelve a mostrar la información y oculta el formulario
-        document.querySelector(".profile-info").style.display = "flex";
-        document.querySelector(".profile-form").style.display = "none";
+        document.querySelector(".patientList").style.display = "flex";
+        const rec = document.getElementById('rec-form');
+        rec.style.display = 'none';
       }
 
-      function loadFormPage() {
-        // Cancela la edición, vuelve a mostrar la información y oculta el formulario
+      function loadFormPage(idPaciente) {
         document.querySelector(".patientList").style.display = "none";
-        const rec = arearec = document.getElementById('rec-form');
+        const rec = document.getElementById('rec-form');
         rec.style.display = 'block';
+        document.getElementById('form-paciente-id').value = idPaciente;
       }
 
       function returnPatients(){
-        document.querySelector(".patientList").style.display = "block";
-        const rec = arearec = document.getElementById('rec-form');
+        document.querySelector(".patientList").style.display = "flex";
+        const rec = document.getElementById('rec-form');
         rec.style.display = 'none';
+        
+        // Resetear el valor del campo oculto
+        document.getElementById('form-paciente-id').value = '';
       }
 
       function previewImage() {
