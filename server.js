@@ -293,6 +293,22 @@ app.patch('/api/doctor/cita/modificar/:id', async (req, res) => {
     res.status(500).send('Error al procesar la solicitud');
   }
 });
+
+
+//----------------------------------------------Chat----------------------------------
+app.post('/api/doctor/seguimiento/newReceta', (req, res) => {
+  const nuevaCita = req.body; // Datos de la nueva cita
+  console.log(nuevaCita.IDPaciente);
+
+  const query = 'INSERT INTO receta (IDCita, IDMedicina, CantidadDiaria, Indicaciones, Diagnostico, NombreMedicina) VALUES (?, ?, ?, ?, ?, ?)';
+  pool.query(query, [nuevaCita.IDCita, nuevaCita.IDMedicina, nuevaCita.CantidadDiaria, nuevaCita.Indicaciones, nuevaCita.Diagnostico, nuevaCita.NombreMedicina], (error, results, fields) => {
+    if (error) {
+      return res.status(500).json({ error: 'Error al insertar la cita' });
+    }
+    // Enviar una respuesta con el ID de la cita insertada
+    res.json({ message: 'Cita insertada con éxito', insertedId: results.insertId });
+  });
+});
 //-----------------------------------------------Fin back------------------------------
 
 app.get('/', (req, res) => {

@@ -253,7 +253,7 @@
                   const cardWidth = 800;
 
                   const appointmentURL = "/api/doctor/appointments/:id";
-                  const idDoctor = 1; // El ID que quieres usar
+                  const idDoctor = 2; // El ID que quieres usar
                   const updateAppointmentURL = appointmentURL.replace(
                     ":id",
                     idDoctor
@@ -793,7 +793,7 @@
                         const Area = document.getElementById("contenedor-items-i"); // Asegúrate de que este es el ID correcto
                         Area.style.display = 'flex'; // Asegúrate de que este contenedor se muestre inicialmente
                       const urlPacientes = "/api/doctor/patients/:id";
-                      const idDoctor = 1;
+                      const idDoctor = 2;
                       const newVerURL = urlPacientes.replace(":id", idDoctor);
                       const respuesta = await loadJSON(newVerURL);
                       const JSONPacientes = respuesta.data;
@@ -952,14 +952,14 @@
     
                         const loadProfile = async () => {
                           const urlPacientes = "/api/doctor/patients/:id";
-                          const idDoctor = 1;
+                          const idDoctor = 2;
                           const newVerURL = urlPacientes.replace(":id", idDoctor);
                           const respuesta = await loadJSON(newVerURL);
                           const JSONPacientes = respuesta.data;
     
                           const area = document.getElementById("profileInfo");
                           const URL = "/api/doctor/profile/:id";
-                          const idDoc = 1;
+                          const idDoc = 2;
                           const newURL = URL.replace(":id", idDoc);
                           const resp = await loadJSON(newURL);
                           const jsonDoc = resp.data;

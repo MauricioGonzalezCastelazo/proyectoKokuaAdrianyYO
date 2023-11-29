@@ -1,7 +1,7 @@
 //------------------------------Jsons------------------------------------------------------------------
 
 const contactsURL = '/api/paciente/contactos:id';
-const idToReplace = 1; // El ID que quieres usar
+const idToReplace = 38; // El ID que quieres usar
 const updatedContactsURL = contactsURL.replace(':id', idToReplace);
 
 const userURL = '/api/paciente/user:id';
